@@ -35,13 +35,19 @@ export class TMDBRepository implements IMovieRepository {
         try {
             const response = await axios.get(
                 `${TMDB_BASE_URL}/3/genre/movie/list`,
-                { params: { api_key: TMDB_API_KEY, language: 'en-US' } }
+                {
+                    headers: {
+                    Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
+                    'Content-Type': 'application/json',
+                    },
+                params: { language: 'en-US' },
+                }
             );
             return response.data.genres;
         }
         catch (error) {
             if (error instanceof AxiosError) {
-                console.error('TMDB API error:', error.response?.data || error.message);
+                console.error('TMDB API error genre:', error.response?.data || error.message);
             } else {
                 console.error('Unexpected error:', error);
             }
