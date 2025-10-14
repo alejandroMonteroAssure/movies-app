@@ -8,6 +8,7 @@ import MoviesCarrousel from '../components/MoviesCarrousel/MoviesCarrousel';
 import { Movie } from '../services/domain/Movie';
 import { TMDBRepository } from '../services/infrastructure/TMDBRepository';
 import { GetPopularMovies } from '../services/application/GetPopularMovies';
+import MoviesList from '../components/organisms/moviesList/MoviesList';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -37,6 +38,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <MoviesCarrousel
             popularMovies={popularMovies}
           />
+
+          <MoviesList data={popularMovies} listTitle='Best movies'/>
         </ScrollView>
       </SafeAreaProvider>
     </GestureHandlerRootView>
