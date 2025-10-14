@@ -8,6 +8,9 @@ import MoviesCarrousel from '../components/MoviesCarrousel/MoviesCarrousel';
 import { Movie } from '../services/domain/Movie';
 import { TMDBRepository } from '../services/infrastructure/TMDBRepository';
 import { GetPopularMovies } from '../services/application/GetPopularMovies';
+import { GetGenres } from '../services/application/GetGenres';
+import { Genre } from '../services/domain/Genre';
+import Navbar from '../components/Navbar/Navbar';
 import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
@@ -16,9 +19,13 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const movieRepository = new TMDBRepository();
 const getPopularMovies = new GetPopularMovies(movieRepository);
+const getGenres = new GetGenres(movieRepository);
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
+
+  const [activeGenreId, setActiveGenreId] = useState<number>(0);
   const { movies, loading } = useMoviesByStudio('Marvel');
 
   const fetchMovies = async () => {
@@ -26,8 +33,14 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     setPopularMovies(data.slice(0, 5));
   };
 
+  const fetchGenres = async () => {
+    const data = await getGenres.execute();
+    setGenres(data);
+  };
+
   useEffect(() => {
     fetchMovies();
+    fetchGenres();
   }, []);
 
   function handleCheckDetails(): void {
@@ -44,6 +57,12 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           contentContainerStyle={{ paddingBottom: 24 }}
           nestedScrollEnabled
         >
+          <Navbar
+            genres={[{ id: 0, name: 'All' }, ...genres]}
+            activeId={activeGenreId}
+            onSelect={setActiveGenreId}
+          />
+          <MoviesCarrousel popularMovies={popularMovies} />
           <MoviesCarrousel popularMovies={popularMovies} />
 
           <MoviesList data={movies} listTitle='Marvel Studios'/>
