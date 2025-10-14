@@ -63,9 +63,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             onSelect={setActiveGenreId}
           />
           <MoviesCarrousel popularMovies={popularMovies} />
-          <MoviesCarrousel popularMovies={popularMovies} />
 
-          <MoviesList data={movies} listTitle='Marvel Studios'/>
+          <MoviesList data={movies} listTitle="Marvel Studios" />
 
           <BlackFridayCard onCheckDetails={handleCheckDetails} />
         </ScrollView>
