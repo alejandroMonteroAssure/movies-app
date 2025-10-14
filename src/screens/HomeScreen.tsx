@@ -8,6 +8,7 @@ import MoviesCarrousel from '../components/MoviesCarrousel/MoviesCarrousel';
 import { Movie } from '../services/domain/Movie';
 import { TMDBRepository } from '../services/infrastructure/TMDBRepository';
 import { GetPopularMovies } from '../services/application/GetPopularMovies';
+import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 
@@ -29,6 +30,10 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     fetchMovies();
   }, []);
 
+  function handleCheckDetails(): void {
+    throw new Error('Function not implemented.');
+  }
+
   if (loading) return <Text>Cargando...</Text>;
 
   return (
@@ -39,15 +44,14 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           contentContainerStyle={{ paddingBottom: 24 }}
           nestedScrollEnabled
         >
-          <MoviesCarrousel
-            popularMovies={popularMovies}
-          />
+          <MoviesCarrousel popularMovies={popularMovies} />
+
+          <BlackFridayCard onCheckDetails={handleCheckDetails} />
 
           <MoviesList data={movies} listTitle='Marvel Studios'/>
         </ScrollView>
       </SafeAreaProvider>
     </GestureHandlerRootView>
-
   );
 };
 
