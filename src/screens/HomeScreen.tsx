@@ -46,9 +46,9 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         >
           <MoviesCarrousel popularMovies={popularMovies} />
 
-          <BlackFridayCard onCheckDetails={handleCheckDetails} />
-
           <MoviesList data={movies} listTitle='Marvel Studios'/>
+
+          <BlackFridayCard onCheckDetails={handleCheckDetails} />
         </ScrollView>
       </SafeAreaProvider>
     </GestureHandlerRootView>
