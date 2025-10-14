@@ -6,6 +6,8 @@ export const styles = StyleSheet.create({
     backgroundColor: '#000000',
     borderRadius: 8,
     overflow: 'hidden',
+    marginTop: 30,
+    paddingInline: 20,
   },
   imageBackground: {
     width: '100%',
