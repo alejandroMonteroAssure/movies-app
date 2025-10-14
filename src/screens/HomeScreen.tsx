@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, ScrollView } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,6 +11,9 @@ import { GetPopularMovies } from '../services/application/GetPopularMovies';
 import { GetGenres } from '../services/application/GetGenres';
 import { Genre } from '../services/domain/Genre';
 import Navbar from '../components/Navbar/Navbar';
+import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
+import MoviesList from '../components/organisms/moviesList/MoviesList';
+import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -23,6 +26,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [genres, setGenres] = useState<Genre[]>([]);
 
   const [activeGenreId, setActiveGenreId] = useState<number>(0);
+  const { movies, loading } = useMoviesByStudio('Marvel');
 
   const fetchMovies = async () => {
     const data = await getPopularMovies.execute(1);
@@ -39,6 +43,12 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     fetchGenres();
   }, []);
 
+  function handleCheckDetails(): void {
+    throw new Error('Function not implemented.');
+  }
+
+  if (loading) return <Text>Cargando...</Text>;
+
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#000' }}>
       <SafeAreaProvider>
@@ -53,6 +63,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             onSelect={setActiveGenreId}
           />
           <MoviesCarrousel popularMovies={popularMovies} />
+          <MoviesCarrousel popularMovies={popularMovies} />
+
+          <MoviesList data={movies} listTitle='Marvel Studios'/>
+
+          <BlackFridayCard onCheckDetails={handleCheckDetails} />
         </ScrollView>
       </SafeAreaProvider>
     </GestureHandlerRootView>
