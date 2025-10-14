@@ -8,6 +8,7 @@ import MoviesCarrousel from '../components/MoviesCarrousel/MoviesCarrousel';
 import { Movie } from '../services/domain/Movie';
 import { TMDBRepository } from '../services/infrastructure/TMDBRepository';
 import { GetPopularMovies } from '../services/application/GetPopularMovies';
+import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -26,6 +27,10 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     fetchMovies();
   }, []);
 
+  function handleCheckDetails(): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#000' }}>
       <SafeAreaProvider>
@@ -34,13 +39,12 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           contentContainerStyle={{ paddingBottom: 24 }}
           nestedScrollEnabled
         >
-          <MoviesCarrousel
-            popularMovies={popularMovies}
-          />
+          <MoviesCarrousel popularMovies={popularMovies} />
+
+          <BlackFridayCard onCheckDetails={handleCheckDetails} />
         </ScrollView>
       </SafeAreaProvider>
     </GestureHandlerRootView>
-
   );
 };
 
