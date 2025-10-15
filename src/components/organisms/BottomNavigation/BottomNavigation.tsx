@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { View } from 'react-native';
+import { IconButton } from '../../atoms/IconButton/IconButton';
+import { styles } from './BottomNavigation.style';
 
 const BottomNavigation = () => {
   const [activeTab, setActiveTab] = useState('Home');
@@ -15,47 +16,16 @@ const BottomNavigation = () => {
   return (
     <View style={styles.container}>
       {tabs.map(tab => (
-        <TouchableOpacity
+        <IconButton
           key={tab.name}
-          style={styles.tab}
+          icon={activeTab === tab.name ? tab.activeIcon : tab.icon}
+          label={tab.name}
+          active={activeTab === tab.name}
           onPress={() => setActiveTab(tab.name)}
-        >
-          <Icon
-            name={activeTab === tab.name ? tab.activeIcon : tab.icon}
-            size={26}
-            color={activeTab === tab.name ? '#E50914' : '#bbb'}
-          />
-          <Text
-            style={[
-              styles.label,
-              { color: activeTab === tab.name ? '#E50914' : '#bbb' },
-            ]}
-          >
-            {tab.name}
-          </Text>
-        </TouchableOpacity>
+        />
       ))}
     </View>
   );
 };
 
 export default BottomNavigation;
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#111',
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#222',
-  },
-  tab: {
-    alignItems: 'center',
-  },
-  label: {
-    fontSize: 12,
-    marginTop: 4,
-  },
-});
