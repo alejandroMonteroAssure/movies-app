@@ -14,6 +14,7 @@ import Navbar from '../components/Navbar/Navbar';
 import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
+import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -68,6 +69,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
           <BlackFridayCard onCheckDetails={handleCheckDetails} />
         </ScrollView>
+        <BottomNavigation />
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
