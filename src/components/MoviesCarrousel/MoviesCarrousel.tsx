@@ -15,11 +15,16 @@ import {
 } from './MoviesCarrousel.styles';
 import { CustomText } from '../atoms/CustomText/CustomText';
 import { Button } from '../atoms/Button/Button';
-import { useSharedValue } from 'react-native-reanimated';
+import { useSharedValue, configureReanimatedLogger, ReanimatedLogLevel  } from 'react-native-reanimated';
 
 type MoviesCarrouselProps = {
   popularMovies: Movie[];
 };
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
 
 export default function MoviesCarrousel({
   popularMovies,
