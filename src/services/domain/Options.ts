@@ -1,0 +1,25 @@
+export type Options = {
+  with_genres?: string | number;
+  with_companies?: string | number;
+  with_cast?: string;
+  with_crew?: string;
+  with_keywords?: string;
+  with_people?: string;
+  with_origin_country?: string;
+  with_original_language?: string;
+  sort_by?: string;
+  include_adult?: boolean;
+  include_video?: boolean;
+  page?: number;
+  region?: string;
+  language?: string;
+  primary_release_year?: number;
+  release_date_gte?: string;
+  release_date_lte?: string;
+  vote_average_gte?: number;
+  vote_average_lte?: number;
+  with_runtime_gte?: number;
+  with_runtime_lte?: number;
+  with_watch_monetization_types?: string;
+  watch_region?: string;
+};

@@ -70,32 +70,31 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
     setIsFiltered(true);
 
-    const genreMovies = await getFilteredMovies.execute(
-      activeGenreId,
-      undefined,
-      undefined,
-      'vote_average.desc',
-      1,
-    );
+    const genreMovies = await getFilteredMovies.execute({
+      with_genres: activeGenreId,
+      sort_by: 'vote_average.desc',
+      page: 1,
+    });
     setFilteredMovies(genreMovies.slice(0, 5));
 
     const studioIds = [33, 174, 4];
     const studiosData: Record<string, Movie[]> = {};
 
     for (const id of studioIds) {
-      const studioMovies = await getFilteredMovies.execute(
-        activeGenreId,
-        id,
-        undefined,
-        'popularity.desc',
-        1,
-      );
+      const studioMovies = await getFilteredMovies.execute({
+        with_genres: activeGenreId,
+        with_companies: id,
+        sort_by: 'popularity.desc',
+        page: 1,
+      });
+
       const studioName =
         id === 33
           ? 'Universal Pictures'
           : id === 174
           ? 'Warner Bros'
           : 'Paramount Pictures';
+
       studiosData[studioName] = studioMovies.slice(0, 10);
     }
 
