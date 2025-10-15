@@ -16,6 +16,7 @@ import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { GetTopRatedMovies } from '../services/application/GetTopRatedMovies';
+import { GetFilteredMovies } from '../services/application/GetFileredMovies';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -23,6 +24,7 @@ const movieRepository = new TMDBRepository();
 const getPopularMovies = new GetPopularMovies(movieRepository);
 const getGenres = new GetGenres(movieRepository);
 const getTopRatedMovies = new GetTopRatedMovies(movieRepository);
+const getFilteredMovies = new GetFilteredMovies(movieRepository);
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -32,6 +34,10 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { movies, loading } = useMoviesByStudio('Marvel');
 
   const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
+
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
+  const [studioMovies, setStudioMovies] = useState<Record<string, Movie[]>>({});
+  const [isFiltered, setIsFiltered] = useState(false);
 
   const fetchMovies = async () => {
     const data = await getPopularMovies.execute(1);
@@ -54,6 +60,52 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     fetchTopMovies();
   }, []);
 
+  const fetchFilteredData = async () => {
+    if (activeGenreId === 0) {
+      setIsFiltered(false);
+      fetchMovies();
+      fetchTopMovies();
+      return;
+    }
+
+    setIsFiltered(true);
+
+    const genreMovies = await getFilteredMovies.execute(
+      activeGenreId,
+      undefined,
+      undefined,
+      'vote_average.desc',
+      1,
+    );
+    setFilteredMovies(genreMovies.slice(0, 5));
+
+    const studioIds = [33, 174, 4];
+    const studiosData: Record<string, Movie[]> = {};
+
+    for (const id of studioIds) {
+      const studioMovies = await getFilteredMovies.execute(
+        activeGenreId,
+        id,
+        undefined,
+        'popularity.desc',
+        1,
+      );
+      const studioName =
+        id === 33
+          ? 'Universal Pictures'
+          : id === 174
+          ? 'Warner Bros'
+          : 'Paramount Pictures';
+      studiosData[studioName] = studioMovies.slice(0, 10);
+    }
+
+    setStudioMovies(studiosData);
+  };
+
+  useEffect(() => {
+    fetchFilteredData();
+  }, [activeGenreId]);
+
   function handleCheckDetails(): void {
     throw new Error('Function not implemented.');
   }
@@ -73,12 +125,25 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             activeId={activeGenreId}
             onSelect={setActiveGenreId}
           />
-          <MoviesCarrousel popularMovies={popularMovies} />
-
-          <MoviesList data={movies} listTitle="Marvel Studios" />
-          <MoviesList data={topRatedMovies} listTitle="Best movies" />
-
-          <BlackFridayCard onCheckDetails={handleCheckDetails} />
+          {isFiltered ? (
+            <>
+              <MoviesCarrousel popularMovies={filteredMovies} />
+              {Object.entries(studioMovies).map(([studioName, movies]) => (
+                <MoviesList
+                  key={studioName}
+                  data={movies}
+                  listTitle={studioName}
+                />
+              ))}
+            </>
+          ) : (
+            <>
+              <MoviesCarrousel popularMovies={popularMovies} />
+              <MoviesList data={movies} listTitle="Marvel Studios" />
+              <MoviesList data={topRatedMovies} listTitle="Best movies" />
+              <BlackFridayCard onCheckDetails={handleCheckDetails} />
+            </>
+          )}
         </ScrollView>
         <BottomNavigation />
       </SafeAreaProvider>
