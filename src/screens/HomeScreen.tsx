@@ -13,30 +13,18 @@ import { Genre } from '../services/domain/Genre';
 import Navbar from '../components/Navbar/Navbar';
 import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
-import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
-import { GetTopRatedMovies } from '../services/application/GetTopRatedMovies';
-import { GetFilteredMovies } from '../services/application/GetFileredMovies';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const movieRepository = new TMDBRepository();
 const getPopularMovies = new GetPopularMovies(movieRepository);
 const getGenres = new GetGenres(movieRepository);
-const getTopRatedMovies = new GetTopRatedMovies(movieRepository);
-const getFilteredMovies = new GetFilteredMovies(movieRepository);
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
-
   const [activeGenreId, setActiveGenreId] = useState<number>(0);
-  const { movies, loading } = useMoviesByStudio('Marvel');
-
-  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
-
-  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
-  const [studioMovies, setStudioMovies] = useState<Record<string, Movie[]>>({});
   const [isFiltered, setIsFiltered] = useState(false);
 
   const fetchMovies = async () => {
@@ -49,67 +37,18 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     setGenres(data);
   };
 
-  const fetchTopMovies = async () => {
-    const data = await getTopRatedMovies.execute(1);
-    setTopRatedMovies(data.slice(0, 10));
-  };
-
   useEffect(() => {
     fetchMovies();
     fetchGenres();
-    fetchTopMovies();
   }, []);
 
-  const fetchFilteredData = async () => {
-    if (activeGenreId === 0) {
-      setIsFiltered(false);
-      fetchMovies();
-      fetchTopMovies();
-      return;
-    }
-
-    setIsFiltered(true);
-
-    const genreMovies = await getFilteredMovies.execute({
-      with_genres: activeGenreId,
-      sort_by: 'vote_average.desc',
-      page: 1,
-    });
-    setFilteredMovies(genreMovies.slice(0, 5));
-
-    const studioIds = [33, 174, 4];
-    const studiosData: Record<string, Movie[]> = {};
-
-    for (const id of studioIds) {
-      const studioMovies = await getFilteredMovies.execute({
-        with_genres: activeGenreId,
-        with_companies: id,
-        sort_by: 'popularity.desc',
-        page: 1,
-      });
-
-      const studioName =
-        id === 33
-          ? 'Universal Pictures'
-          : id === 174
-          ? 'Warner Bros'
-          : 'Paramount Pictures';
-
-      studiosData[studioName] = studioMovies.slice(0, 10);
-    }
-
-    setStudioMovies(studiosData);
-  };
-
   useEffect(() => {
-    fetchFilteredData();
+    setIsFiltered(activeGenreId !== 0);
   }, [activeGenreId]);
 
   function handleCheckDetails(): void {
     throw new Error('Function not implemented.');
   }
-
-  if (loading) return <Text>Cargando...</Text>;
 
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#000' }}>
@@ -124,22 +63,51 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             activeId={activeGenreId}
             onSelect={setActiveGenreId}
           />
+          <MoviesCarrousel popularMovies={popularMovies} />
           {isFiltered ? (
             <>
-              <MoviesCarrousel popularMovies={filteredMovies} />
-              {Object.entries(studioMovies).map(([studioName, movies]) => (
-                <MoviesList
-                  key={studioName}
-                  data={movies}
-                  listTitle={studioName}
-                />
-              ))}
+              <MoviesList
+                listTitle="Top rated"
+                params={{
+                  with_genres: activeGenreId,
+                  sort_by: 'vote_average.desc',
+                }}
+              />
+              <MoviesList
+                listTitle="Universal Pictures"
+                params={{
+                  with_genres: activeGenreId,
+                  with_companies: 33,
+                  sort_by: 'popularity.desc',
+                }}
+              />
+              <MoviesList
+                listTitle="Warner Bros"
+                params={{
+                  with_genres: activeGenreId,
+                  with_companies: 174,
+                  sort_by: 'popularity.desc',
+                }}
+              />
+              <MoviesList
+                listTitle="Paramount Pictures"
+                params={{
+                  with_genres: activeGenreId,
+                  with_companies: 4,
+                  sort_by: 'popularity.desc',
+                }}
+              />
             </>
           ) : (
             <>
-              <MoviesCarrousel popularMovies={popularMovies} />
-              <MoviesList data={movies} listTitle="Marvel Studios" />
-              <MoviesList data={topRatedMovies} listTitle="Best movies" />
+              <MoviesList
+                listTitle="Marvel Studios"
+                params={{ with_companies: 420 }}
+              />
+              <MoviesList
+                listTitle="Best Movies"
+                params={{ sort_by: 'vote_average.desc' }}
+              />
               <BlackFridayCard onCheckDetails={handleCheckDetails} />
             </>
           )}
