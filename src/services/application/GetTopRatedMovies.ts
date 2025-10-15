@@ -1,7 +1,7 @@
 import { IMovieRepository } from '../domain/IMovieRepository';
 import { Movie } from '../domain/Movie';
 
-export class GetPopularMovies {
+export class GetTopRatedMovies {
   constructor(private movieRepository: IMovieRepository) {}
 
   async execute(page: number): Promise<Movie[]> {

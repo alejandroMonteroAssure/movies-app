@@ -14,12 +14,14 @@ import Navbar from '../components/Navbar/Navbar';
 import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
+import { GetTopRatedMovies } from '../services/application/GetTopRatedMovies';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const movieRepository = new TMDBRepository();
 const getPopularMovies = new GetPopularMovies(movieRepository);
 const getGenres = new GetGenres(movieRepository);
+const getTopRatedMovies = new GetTopRatedMovies(movieRepository);
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -27,6 +29,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const [activeGenreId, setActiveGenreId] = useState<number>(0);
   const { movies, loading } = useMoviesByStudio('Marvel');
+
+  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
 
   const fetchMovies = async () => {
     const data = await getPopularMovies.execute(1);
@@ -38,9 +42,15 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     setGenres(data);
   };
 
+  const fetchTopMovies = async () => {
+    const data = await getTopRatedMovies.execute(1);
+    setTopRatedMovies(data.slice(0, 10));
+  };
+
   useEffect(() => {
     fetchMovies();
     fetchGenres();
+    fetchTopMovies();
   }, []);
 
   function handleCheckDetails(): void {
@@ -65,6 +75,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <MoviesCarrousel popularMovies={popularMovies} />
 
           <MoviesList data={movies} listTitle="Marvel Studios" />
+          <MoviesList data={topRatedMovies} listTitle="Best movies" />
 
           <BlackFridayCard onCheckDetails={handleCheckDetails} />
         </ScrollView>
