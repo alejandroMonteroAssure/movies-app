@@ -107,6 +107,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
               <MoviesList
                 listTitle="Best Movies"
                 params={{ sort_by: 'vote_average.desc' }}
+                isTopRated={true}
               />
               <BlackFridayCard onCheckDetails={handleCheckDetails} />
             </>

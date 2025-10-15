@@ -10,23 +10,37 @@ import MovieItem from '../../molecules/movieItem/MovieItem';
 import { Options } from '../../../services/domain/Options';
 import { TMDBRepository } from '../../../services/infrastructure/TMDBRepository';
 import { GetFilteredMovies } from '../../../services/application/GetFileredMovies';
+import { GetTopRatedMovies } from '../../../services/application/GetTopRatedMovies';
 
 type MoviesListProps = {
   listTitle: string;
   params: Options;
+  isTopRated?: boolean;
 };
 
 const movieRepository = new TMDBRepository();
 const getFilteredMovies = new GetFilteredMovies(movieRepository);
+const getTopRatedMovies = new GetTopRatedMovies(movieRepository);
 
-const MoviesList = ({ listTitle, params }: MoviesListProps) => {
+const MoviesList = ({
+  listTitle,
+  params,
+  isTopRated = false,
+}: MoviesListProps) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      const data = await getFilteredMovies.execute(params);
+      let data: Movie[] = [];
+
+      if (isTopRated) {
+        data = await getTopRatedMovies.execute(1);
+      } else {
+        data = await getFilteredMovies.execute(params);
+      }
+
       setMovies(data.slice(0, 10));
     } catch (error) {
       console.error('Error fetching movies list:', error);
