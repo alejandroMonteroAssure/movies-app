@@ -42,4 +42,16 @@ export class TMDBRepository implements IMovieRepository {
       return [];
     }
   }
+
+  async getTopRatedMovies(page: number): Promise<Movie[]> {
+    try {
+      const response = await httpClient.get('/movie/top_rated', {
+        params: { language: 'es-ES', page },
+      });
+      return response.data.results.map(mapToDomain);
+    } catch (error) {
+      handleAxiosError(error);
+      return [];
+    }
+  }
 }
