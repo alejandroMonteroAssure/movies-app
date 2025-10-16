@@ -6,6 +6,8 @@ import HomeScreen from '../screens/HomeScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import { StatusBar } from 'react-native';
 import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
+import { toastConfig } from '../libs/toast.config';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -41,6 +43,8 @@ const AppNavigator: React.FC = () => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+
+      <Toast config={toastConfig} visibilityTime={2500} />
     </>
   );
 };
