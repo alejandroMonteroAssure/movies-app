@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { Movie } from '../services/domain/Movie';
 import { wishlistStorage } from '../services/infrastructure/WishlistStorage';
+import Toast from 'react-native-toast-message';
 
 type WishlistContextType = {
   wishlist: Movie[];
@@ -33,6 +34,17 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
     if (!wishlist.some(m => m.id === movie.id)) {
       const updated = [...wishlist, movie];
       await saveWishlist(updated);
+      Toast.show({
+        type: 'success',
+        text1: 'Success!',
+        text2: 'Your item has been saved successfully.',
+      })
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'The movie has already been added in your wishlist.',
+      })
     }
   };
 

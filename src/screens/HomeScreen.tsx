@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, FlatList } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -16,6 +16,8 @@ import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { GetTopRatedMovies } from '../services/application/GetTopRatedMovies';
+import { useWishlist } from '../context/WishlistContext';
+import MovieItem from '../components/molecules/movieItem/MovieItem';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -32,6 +34,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { movies, loading } = useMoviesByStudio('Marvel');
 
   const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
+
+  const { wishlist } = useWishlist();
 
   const fetchMovies = async () => {
     const data = await getPopularMovies.execute(1);

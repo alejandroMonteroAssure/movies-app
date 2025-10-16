@@ -15,7 +15,7 @@ import {
 } from './MoviesCarrousel.styles';
 import { CustomText } from '../atoms/CustomText/CustomText';
 import { Button } from '../atoms/Button/Button';
-import { useSharedValue, configureReanimatedLogger, ReanimatedLogLevel  } from 'react-native-reanimated';
+import { useSharedValue, configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 import { useWishlist } from '../../context/WishlistContext';
 
 type MoviesCarrouselProps = {
@@ -35,7 +35,7 @@ export default function MoviesCarrousel({
   const width = Dimensions.get('window').width;
   const progress = useSharedValue<number>(0);
   const [activeIndex, setActiveIndex] = React.useState(0);
-  const { addToWishlist, isInWishlist, wishlist } = useWishlist();
+  const { addToWishlist } = useWishlist();
 
   const movie = popularMovies[activeIndex];
 
@@ -47,13 +47,8 @@ export default function MoviesCarrousel({
   };
 
   const handleAddWishlist = () => {
-    if (isInWishlist(movie.id)) {
-      console.log('already in wishlist')
-    }else{
-      console.log('movie to be in wishlist', movie)
-      addToWishlist(popularMovies[activeIndex])
-      console.log('wishlist', wishlist)
-    }
+    console.log('movie to be in wishlist', movie)
+    addToWishlist(popularMovies[activeIndex])
   }
 
   return (
@@ -90,7 +85,7 @@ export default function MoviesCarrousel({
 
         <View style={moviesCarrouselStyles.buttonsContainer}>
           <Button title="+ Wishlist" variant="secondary" onPress={handleAddWishlist} />
-          <Button title="Details" variant="primary" onPress={() => {}} />
+          <Button title="Details" variant="primary" onPress={() => { }} />
         </View>
       </LinearGradient>
       <Pagination.Basic
