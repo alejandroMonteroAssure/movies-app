@@ -16,7 +16,6 @@ import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { GetTopRatedMovies } from '../services/application/GetTopRatedMovies';
-import DetailsBottomSheet from '../components/DetailsBottomSheet/DetailsBottomSheet';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -87,11 +86,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <BlackFridayCard onCheckDetails={handleCheckDetails} />
         </ScrollView>
         <BottomNavigation />
-        <DetailsBottomSheet
-          open={detailsOpen}
-          onClose={() => setDetailsOpen(false)}
-          movie={selectedMovie}
-        />
+        
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

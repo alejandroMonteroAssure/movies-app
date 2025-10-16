@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Modal, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { styles } from './DetailsBottomSheet.styles';
-import { Movie } from '../../services/domain/Movie';
+import { styles } from './BottomSheet.styles';
 
-type DetailsBottomSheetProps = {
+type BottomSheetProps = {
   open: boolean;
   onClose: () => void;
-  movie?: Movie
+  children: React.ReactNode;
 };
 
 const CLOSED_Y = 100;
@@ -17,8 +16,8 @@ const CLOSE_DURATION = 500;
 export default function DetailsBottomSheet({
   open,
   onClose,
-  movie
-}: DetailsBottomSheetProps) {
+  children,
+}: BottomSheetProps) {
   const insets = useSafeAreaInsets();
   const positionY = useRef(new Animated.Value(CLOSED_Y)).current;
   const isAnimatingRef = useRef(false);
@@ -59,10 +58,7 @@ export default function DetailsBottomSheet({
       animationType="none"
       onRequestClose={() => handleClose()}
     >
-      <Pressable
-        style={styles.backdrop}
-        onPress={() => handleClose()}
-      />
+      <Pressable style={styles.backdrop} onPress={() => handleClose()} />
 
       <Animated.View
         style={[
@@ -82,7 +78,7 @@ export default function DetailsBottomSheet({
       >
         <View style={[styles.sheet, { paddingBottom: 16 + insets.bottom }]}>
           <View style={styles.handle} />
-          
+          {children}
         </View>
       </Animated.View>
     </Modal>
