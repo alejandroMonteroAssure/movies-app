@@ -20,6 +20,9 @@ export const colors = {
   white: '#FFFFFF',
   black: '#000000',
   transparent: 'transparent',
+  toastBg: '#2C2C2E',
+  error: '#FF3B30',
+  success: '#34C759',
 };
 
 export const gradients = {
