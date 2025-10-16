@@ -34,7 +34,6 @@ export default function DetailsModal({
           onLayout={(event) => {
             const measuredHeight = event.nativeEvent.layout.height;
             setContentH(measuredHeight + measuredHeight * 0.15);
-            console.log("Measured Content Height:", measuredHeight);
           }}
         >
           <View style={styles.posterWrap}>
