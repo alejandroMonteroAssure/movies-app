@@ -60,6 +60,12 @@ export class TMDBRepository implements IMovieRepository {
       const response = await httpClient.get('/search/movie', {
         params: { language: 'es-ES', query },
       });
+      return response.data.results.map(mapToDomain);
+    } catch (error) {
+      handleAxiosError(error);
+      return [];
+    }
+  }
 
   async getFilteredMovies(params: Options): Promise<Movie[]> {
     try {
