@@ -1,14 +1,15 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../components/constants/colors';
 
 export const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: colors.background,
   },
   safeArea: {
     flex: 1,
     paddingHorizontal: 8,
-    backgroundColor: '#000',
+    backgroundColor: colors.background,
   },
   scrollContainer: {
     paddingBottom: 0,
@@ -27,7 +28,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   messageText: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 16,
   },
 });
