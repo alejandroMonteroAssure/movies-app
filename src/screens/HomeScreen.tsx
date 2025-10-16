@@ -16,6 +16,7 @@ import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { GetTopRatedMovies } from '../services/application/GetTopRatedMovies';
+import DetailsModal from '../components/DetailsModal/DetailsModal';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -84,6 +85,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <MoviesList data={topRatedMovies} listTitle="Best movies" />
 
           <BlackFridayCard onCheckDetails={handleCheckDetails} />
+          <DetailsModal
+          open={detailsOpen}
+          onClose={() => setDetailsOpen(false)}
+          movie={selectedMovie}
+          />
         </ScrollView>
         <BottomNavigation />
         

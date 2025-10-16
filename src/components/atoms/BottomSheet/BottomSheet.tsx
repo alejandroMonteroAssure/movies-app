@@ -13,7 +13,7 @@ const CLOSED_Y = 100;
 const OPEN_Y = 0;
 const CLOSE_DURATION = 500;
 
-export default function DetailsBottomSheet({
+export default function BottomSheet({
   open,
   onClose,
   children,
@@ -76,7 +76,17 @@ export default function DetailsBottomSheet({
           },
         ]}
       >
-        <View style={[styles.sheet, { paddingBottom: 16 + insets.bottom }]}>
+        <View
+          style={[
+            styles.sheet,
+            {
+              paddingBottom: 20 + insets.bottom,
+              paddingTop: 20,
+              paddingLeft: 20,
+              paddingRight: 20,
+            },
+          ]}
+        >
           <View style={styles.handle} />
           {children}
         </View>
