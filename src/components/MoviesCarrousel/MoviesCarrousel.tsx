@@ -85,7 +85,8 @@ export default function MoviesCarrousel({
 
         <View style={moviesCarrouselStyles.buttonsContainer}>
           <Button title="+ Wishlist" variant="secondary" onPress={handleAddWishlist} />
-          <Button title="Details" variant="primary" onPress={() => { }} />
+          <Button title="Details" variant="primary" onPress={() => onPressDetails(movie)} />
+
         </View>
       </LinearGradient>
       <Pagination.Basic
