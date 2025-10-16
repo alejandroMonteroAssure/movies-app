@@ -14,21 +14,34 @@ type BottomSheetProps = {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  contentHeight: number
 };
 
 export default function BottomSheet({
   open,
   onClose,
   children,
+  contentHeight
 }: BottomSheetProps) {
   const insets = useSafeAreaInsets();
   const screenH = Dimensions.get('window').height;
 
   const DEFAULT_HEIGHT = screenH * 0.5;
   const MIN_HEIGHT = screenH * 0.25;
-  const MAX_HEIGHT = screenH * 0.85;
+  const MAX_HEIGHT = contentHeight;
 
-  const heightAnim = useRef(new Animated.Value(DEFAULT_HEIGHT)).current;
+  const latestHeights = useRef({
+    MIN: MIN_HEIGHT,
+    DEFAULT: DEFAULT_HEIGHT,
+    MAX: MAX_HEIGHT,
+  });
+
+  latestHeights.current.MIN = MIN_HEIGHT;
+  latestHeights.current.DEFAULT = DEFAULT_HEIGHT;
+  latestHeights.current.MAX = MAX_HEIGHT;
+  const INITIAL_SNAP_HEIGHT = Math.min(DEFAULT_HEIGHT, contentHeight);
+
+  const heightAnim = useRef(new Animated.Value(INITIAL_SNAP_HEIGHT)).current;
   const gestureStartHeight = useRef(0);
 
   const pan = useRef(
@@ -41,26 +54,39 @@ export default function BottomSheet({
       },
 
       onPanResponderMove: (_, gestureState) => {
+        const { MIN, MAX } = latestHeights.current;
+        console.log("on move");
         let newHeight = gestureStartHeight.current - gestureState.dy;
+        console.log("new height on move is ", newHeight)
 
-        if (newHeight < MIN_HEIGHT) {
+        if (newHeight < MIN) {
           onClose();
-        } else if (newHeight > MAX_HEIGHT) {
-          newHeight = MAX_HEIGHT;
+        } else if (newHeight > MAX) {
+          newHeight = MAX;
+          console.log("setting heigh as new height")
+
         }
         heightAnim.setValue(newHeight);
       },
 
       onPanResponderRelease: (_, gestureState) => {
-        const finalHeight = gestureStartHeight.current - gestureState.dy;
-        const midPoint = (DEFAULT_HEIGHT + MAX_HEIGHT) / 2;
+        const { MIN, MAX, DEFAULT } = latestHeights.current;
 
-        if (gestureState.vy > 0.5 && finalHeight < MIN_HEIGHT) {
+        const finalHeight = gestureStartHeight.current - gestureState.dy;
+        console.log("Final height is ", finalHeight);
+
+        const midPoint = (DEFAULT + MAX) / 2;
+        console.log("Mid points is ", midPoint);
+
+        if (gestureState.vy > 0.3 && finalHeight < MIN) {
           onClose();
           return;
         }
 
-        let targetHeight = finalHeight > midPoint ? MAX_HEIGHT : DEFAULT_HEIGHT;
+        console.log("max height is", MAX);
+
+        let targetHeight = finalHeight > midPoint ? MAX : finalHeight;
+        console.log("target height", targetHeight);
 
         Animated.spring(heightAnim, {
           toValue: targetHeight,

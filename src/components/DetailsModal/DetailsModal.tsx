@@ -5,6 +5,7 @@ import MovieBanner from '../atoms/MovieBanner/MovieBanner';
 import { Dimensions, Pressable, View } from 'react-native';
 import { styles } from './DetailsModal.type';
 import { CustomText } from '../atoms/CustomText/CustomText';
+import { useState } from 'react';
 
 type DetailsModalProps = {
   open: boolean;
@@ -21,21 +22,28 @@ export default function DetailsModal({
   const screenH = Dimensions.get('window').height;
   const screenW = Dimensions.get('window').width;
   const MAX_H = Math.floor(screenH * 0.5);
+  const DEFAULT_H = Math.floor(screenH * 0.5);
+  const [contentH, setContentH] = useState<number>(DEFAULT_H);
 
   return (
-    <BottomSheet open={open} onClose={onClose}>
+    <BottomSheet open={open} onClose={onClose} contentHeight={contentH}>
       <View style={[styles.container]}>
-        
+
         <ScrollView
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
+          onLayout={(event) => {
+            const measuredHeight = event.nativeEvent.layout.height;
+            setContentH(measuredHeight + measuredHeight * 0.15);
+            console.log("Measured Content Height:", measuredHeight);
+          }}
         >
           <View style={styles.posterWrap}>
             <MovieBanner
               movie={movie!}
               width={screenW * 0.75}
               height={screenW * 1}
-              customStyle={{borderRadius: 16}}
+              customStyle={{ borderRadius: 16 }}
               type
             />
           </View>
