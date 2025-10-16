@@ -16,6 +16,7 @@ import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { GetTopRatedMovies } from '../services/application/GetTopRatedMovies';
+import DetailsBottomSheet from '../components/DetailsBottomSheet/DetailsBottomSheet';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -32,6 +33,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { movies, loading } = useMoviesByStudio('Marvel');
 
   const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState<Movie>();
 
   const fetchMovies = async () => {
     const data = await getPopularMovies.execute(1);
@@ -73,7 +76,10 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             activeId={activeGenreId}
             onSelect={setActiveGenreId}
           />
-          <MoviesCarrousel popularMovies={popularMovies} />
+          <MoviesCarrousel
+            popularMovies={popularMovies}
+            onPressDetails={(movie) => {setDetailsOpen(true); setSelectedMovie(movie);}}
+          />
 
           <MoviesList data={movies} listTitle="Marvel Studios" />
           <MoviesList data={topRatedMovies} listTitle="Best movies" />
@@ -81,6 +87,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <BlackFridayCard onCheckDetails={handleCheckDetails} />
         </ScrollView>
         <BottomNavigation />
+        <DetailsBottomSheet
+          open={detailsOpen}
+          onClose={() => setDetailsOpen(false)}
+          movie={selectedMovie}
+        />
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
