@@ -54,4 +54,15 @@ export class TMDBRepository implements IMovieRepository {
       return [];
     }
   }
+  async getMoviesByQuery(query: string): Promise<Movie[]> {
+    try {
+      const response = await httpClient.get('/search/movie', {
+        params: { language: 'es-ES', query },
+      });
+      return response.data.results.map(mapToDomain);
+    } catch (error) {
+      handleAxiosError(error);
+      return [];
+    }
+  }
 }
