@@ -14,21 +14,35 @@ import Navbar from '../components/Navbar/Navbar';
 import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
+import { GetFilteredMovies } from '../services/application/GetFileredMovies';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const movieRepository = new TMDBRepository();
 const getPopularMovies = new GetPopularMovies(movieRepository);
 const getGenres = new GetGenres(movieRepository);
+const getFilteredMovies = new GetFilteredMovies(movieRepository);
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [activeGenreId, setActiveGenreId] = useState<number>(0);
-  const [isFiltered, setIsFiltered] = useState(false);
+
+  const isFiltered = activeGenreId !== 0;
 
   const fetchMovies = async () => {
-    const data = await getPopularMovies.execute(1);
+    let data: Movie[] = [];
+
+    if (isFiltered) {
+      data = await getFilteredMovies.execute({
+        with_genres: activeGenreId,
+        sort_by: 'popularity.desc',
+        page: 1,
+      });
+    } else {
+      data = await getPopularMovies.execute(1);
+    }
+
     setPopularMovies(data.slice(0, 5));
   };
 
@@ -43,7 +57,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    setIsFiltered(activeGenreId !== 0);
+    fetchMovies();
   }, [activeGenreId]);
 
   function handleCheckDetails(): void {
@@ -63,16 +77,11 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             activeId={activeGenreId}
             onSelect={setActiveGenreId}
           />
+
           <MoviesCarrousel popularMovies={popularMovies} />
+
           {isFiltered ? (
             <>
-              <MoviesList
-                listTitle="Top rated"
-                params={{
-                  with_genres: activeGenreId,
-                  sort_by: 'vote_average.desc',
-                }}
-              />
               <MoviesList
                 listTitle="Universal Pictures"
                 params={{
