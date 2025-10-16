@@ -13,28 +13,36 @@ import { Genre } from '../services/domain/Genre';
 import Navbar from '../components/Navbar/Navbar';
 import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
-import { useMoviesByStudio } from '../hooks/useMoviesByStudio';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
-import { GetTopRatedMovies } from '../services/application/GetTopRatedMovies';
+import { GetFilteredMovies } from '../services/application/GetFileredMovies';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const movieRepository = new TMDBRepository();
 const getPopularMovies = new GetPopularMovies(movieRepository);
 const getGenres = new GetGenres(movieRepository);
-const getTopRatedMovies = new GetTopRatedMovies(movieRepository);
+const getFilteredMovies = new GetFilteredMovies(movieRepository);
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
-
   const [activeGenreId, setActiveGenreId] = useState<number>(0);
-  const { movies, loading } = useMoviesByStudio('Marvel');
 
-  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
+  const isFiltered = activeGenreId !== 0;
 
   const fetchMovies = async () => {
-    const data = await getPopularMovies.execute(1);
+    let data: Movie[] = [];
+
+    if (isFiltered) {
+      data = await getFilteredMovies.execute({
+        with_genres: activeGenreId,
+        sort_by: 'popularity.desc',
+        page: 1,
+      });
+    } else {
+      data = await getPopularMovies.execute(1);
+    }
+
     setPopularMovies(data.slice(0, 5));
   };
 
@@ -43,22 +51,18 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     setGenres(data);
   };
 
-  const fetchTopMovies = async () => {
-    const data = await getTopRatedMovies.execute(1);
-    setTopRatedMovies(data.slice(0, 10));
-  };
-
   useEffect(() => {
     fetchMovies();
     fetchGenres();
-    fetchTopMovies();
   }, []);
+
+  useEffect(() => {
+    fetchMovies();
+  }, [activeGenreId]);
 
   function handleCheckDetails(): void {
     throw new Error('Function not implemented.');
   }
-
-  if (loading) return <Text>Cargando...</Text>;
 
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#000' }}>
@@ -73,12 +77,50 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             activeId={activeGenreId}
             onSelect={setActiveGenreId}
           />
+
           <MoviesCarrousel popularMovies={popularMovies} />
 
-          <MoviesList data={movies} listTitle="Marvel Studios" />
-          <MoviesList data={topRatedMovies} listTitle="Best movies" />
-
-          <BlackFridayCard onCheckDetails={handleCheckDetails} />
+          {isFiltered ? (
+            <>
+              <MoviesList
+                listTitle="Universal Pictures"
+                params={{
+                  with_genres: activeGenreId,
+                  with_companies: 33,
+                  sort_by: 'popularity.desc',
+                }}
+              />
+              <MoviesList
+                listTitle="Warner Bros"
+                params={{
+                  with_genres: activeGenreId,
+                  with_companies: 174,
+                  sort_by: 'popularity.desc',
+                }}
+              />
+              <MoviesList
+                listTitle="Paramount Pictures"
+                params={{
+                  with_genres: activeGenreId,
+                  with_companies: 4,
+                  sort_by: 'popularity.desc',
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <MoviesList
+                listTitle="Marvel Studios"
+                params={{ with_companies: 420 }}
+              />
+              <MoviesList
+                listTitle="Best Movies"
+                params={{ sort_by: 'vote_average.desc' }}
+                isTopRated={true}
+              />
+              <BlackFridayCard onCheckDetails={handleCheckDetails} />
+            </>
+          )}
         </ScrollView>
         <BottomNavigation />
       </SafeAreaProvider>
