@@ -27,11 +27,10 @@ export default function DetailsModal({
   return (
     <BottomSheet open={open} onClose={onClose} contentHeight={contentH}>
       <View style={[styles.container]}>
-
         <ScrollView
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
-          onLayout={(event) => {
+          onLayout={event => {
             const measuredHeight = event.nativeEvent.layout.height;
             setContentH(measuredHeight + measuredHeight * 0.15);
           }}
@@ -66,6 +65,8 @@ export default function DetailsModal({
             </View>
             <CustomText style={styles.overview}>{movie!.overview}</CustomText>
           </View>
+          <View style={{height: screenH * 0.1}}/>
+
         </ScrollView>
       </View>
     </BottomSheet>

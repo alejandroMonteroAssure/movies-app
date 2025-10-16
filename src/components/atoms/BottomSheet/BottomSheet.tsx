@@ -14,7 +14,7 @@ type BottomSheetProps = {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  contentHeight: number
+  contentHeight: number;
 };
 
 export default function BottomSheet({
