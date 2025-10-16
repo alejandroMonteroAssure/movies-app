@@ -5,6 +5,7 @@ import type { RootStackParamList } from './types';
 import HomeScreen from '../screens/HomeScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import { StatusBar } from 'react-native';
+import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -32,6 +33,11 @@ const AppNavigator: React.FC = () => {
             name="Details"
             component={DetailsScreen}
             options={{ title: 'Detalles' }}
+          />
+          <Stack.Screen
+            name="Search"
+            component={SearchScreen}
+            options={{ title: 'Buscar' }}
           />
         </Stack.Navigator>
       </NavigationContainer>
