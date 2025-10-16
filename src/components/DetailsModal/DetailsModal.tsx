@@ -2,7 +2,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Movie } from '../../services/domain/Movie';
 import BottomSheet from '../atoms/BottomSheet/BottomSheet';
 import MovieBanner from '../atoms/MovieBanner/MovieBanner';
-import { Dimensions, Pressable, View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { styles } from './DetailsModal.type';
 import { CustomText } from '../atoms/CustomText/CustomText';
 import { useState } from 'react';
@@ -21,7 +21,6 @@ export default function DetailsModal({
   if (!open) return null;
   const screenH = Dimensions.get('window').height;
   const screenW = Dimensions.get('window').width;
-  const MAX_H = Math.floor(screenH * 0.5);
   const DEFAULT_H = Math.floor(screenH * 0.5);
   const [contentH, setContentH] = useState<number>(DEFAULT_H);
 

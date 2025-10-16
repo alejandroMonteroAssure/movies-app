@@ -29,6 +29,7 @@ export default function BottomSheet({
   const DEFAULT_HEIGHT = screenH * 0.5;
   const MIN_HEIGHT = screenH * 0.25;
   const MAX_HEIGHT = contentHeight;
+  const ABSOLUTE_SCREEN_MAX = screenH * 0.85;
 
   const latestHeights = useRef({
     MIN: MIN_HEIGHT,
@@ -38,8 +39,9 @@ export default function BottomSheet({
 
   latestHeights.current.MIN = MIN_HEIGHT;
   latestHeights.current.DEFAULT = DEFAULT_HEIGHT;
-  latestHeights.current.MAX = MAX_HEIGHT;
+  latestHeights.current.MAX = Math.min(MAX_HEIGHT, ABSOLUTE_SCREEN_MAX);
   const INITIAL_SNAP_HEIGHT = Math.min(DEFAULT_HEIGHT, contentHeight);
+  
 
   const heightAnim = useRef(new Animated.Value(INITIAL_SNAP_HEIGHT)).current;
   const gestureStartHeight = useRef(0);
@@ -55,39 +57,25 @@ export default function BottomSheet({
 
       onPanResponderMove: (_, gestureState) => {
         const { MIN, MAX } = latestHeights.current;
-        console.log("on move");
         let newHeight = gestureStartHeight.current - gestureState.dy;
-        console.log("new height on move is ", newHeight)
-
-        if (newHeight < MIN) {
+        if (newHeight <= MIN) {
           onClose();
         } else if (newHeight > MAX) {
           newHeight = MAX;
-          console.log("setting heigh as new height")
-
         }
         heightAnim.setValue(newHeight);
       },
 
       onPanResponderRelease: (_, gestureState) => {
-        const { MIN, MAX, DEFAULT } = latestHeights.current;
-
-        const finalHeight = gestureStartHeight.current - gestureState.dy;
-        console.log("Final height is ", finalHeight);
-
-        const midPoint = (DEFAULT + MAX) / 2;
-        console.log("Mid points is ", midPoint);
-
-        if (gestureState.vy > 0.3 && finalHeight < MIN) {
+        const { MIN, MAX } = latestHeights.current;
+        let targetHeight = MAX;
+        if (gestureState.vy > 0.3) {
+          targetHeight = MIN;
           onClose();
           return;
+        } else if(gestureState.vy < -0.6){
+          targetHeight = MAX;
         }
-
-        console.log("max height is", MAX);
-
-        let targetHeight = finalHeight > midPoint ? MAX : finalHeight;
-        console.log("target height", targetHeight);
-
         Animated.spring(heightAnim, {
           toValue: targetHeight,
           useNativeDriver: false,
