@@ -78,7 +78,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
           />
           <MoviesCarrousel
             popularMovies={popularMovies}
-            onPressDetails={(movie) => {setDetailsOpen(true); setSelectedMovie(movie);}}
+            onPressDetails={(movie) => { setDetailsOpen(true); setSelectedMovie(movie); }}
           />
 
           <MoviesList data={movies} listTitle="Marvel Studios" />
@@ -86,13 +86,13 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
           <BlackFridayCard onCheckDetails={handleCheckDetails} />
           <DetailsModal
-          open={detailsOpen}
-          onClose={() => setDetailsOpen(false)}
-          movie={selectedMovie}
+            open={detailsOpen}
+            onClose={() => setDetailsOpen(false)}
+            movie={selectedMovie}
           />
         </ScrollView>
         <BottomNavigation />
-        
+
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

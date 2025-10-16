@@ -19,25 +19,13 @@ export default function DetailsModal({
 }: DetailsModalProps) {
   if (!open) return null;
   const screenH = Dimensions.get('window').height;
-  const MAX_H = Math.floor(screenH * 0.8);
+  const screenW = Dimensions.get('window').width;
+  const MAX_H = Math.floor(screenH * 0.5);
 
   return (
     <BottomSheet open={open} onClose={onClose}>
-      <View style={[styles.container, { maxHeight: MAX_H }]}>
-        <View style={styles.headerRow}>
-          <Pressable
-            onPress={onClose}
-            accessibilityRole="button"
-            accessibilityLabel="Cerrar detalles"
-            style={styles.closeBtnCircle}
-            hitSlop={8}
-          >
-            <CustomText variant="subtitle" style={styles.closeIcon}>
-              ×
-            </CustomText>
-          </Pressable>
-        </View>
-
+      <View style={[styles.container]}>
+        
         <ScrollView
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
@@ -45,8 +33,9 @@ export default function DetailsModal({
           <View style={styles.posterWrap}>
             <MovieBanner
               movie={movie!}
-              width={styles.poster.width}
-              height={styles.poster.height}
+              width={screenW * 0.75}
+              height={screenW * 1}
+              customStyle={{borderRadius: 16}}
               type
             />
           </View>

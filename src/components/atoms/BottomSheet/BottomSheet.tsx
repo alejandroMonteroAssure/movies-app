@@ -1,5 +1,12 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, Modal, Pressable, View } from 'react-native';
+import React, { useRef } from 'react';
+import {
+  Animated,
+  Dimensions,
+  Modal,
+  PanResponder,
+  Pressable,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from './BottomSheet.styles';
 
@@ -9,44 +16,59 @@ type BottomSheetProps = {
   children: React.ReactNode;
 };
 
-const CLOSED_Y = 100;
-const OPEN_Y = 0;
-const CLOSE_DURATION = 500;
-
 export default function BottomSheet({
   open,
   onClose,
   children,
 }: BottomSheetProps) {
   const insets = useSafeAreaInsets();
-  const positionY = useRef(new Animated.Value(CLOSED_Y)).current;
-  const isAnimatingRef = useRef(false);
+  const screenH = Dimensions.get('window').height;
 
-  useEffect(() => {
-    if (!open) return;
-    isAnimatingRef.current = true;
-    Animated.spring(positionY, {
-      toValue: OPEN_Y,
-      damping: 20,
-      useNativeDriver: true,
-    }).start(() => {
-      isAnimatingRef.current = false;
-    });
-  }, [open]);
+  const DEFAULT_HEIGHT = screenH * 0.5;
+  const MIN_HEIGHT = screenH * 0.25;
+  const MAX_HEIGHT = screenH * 0.85;
 
-  const handleClose = () => {
-    onClose();
-    if (isAnimatingRef.current) return;
+  const heightAnim = useRef(new Animated.Value(DEFAULT_HEIGHT)).current;
+  const gestureStartHeight = useRef(0);
 
-    isAnimatingRef.current = true;
-    Animated.timing(positionY, {
-      toValue: CLOSED_Y,
-      duration: CLOSE_DURATION,
-      useNativeDriver: true,
-    }).start(() => {
-      isAnimatingRef.current = false;
-    });
-  };
+  const pan = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+
+      onPanResponderGrant: () => {
+        gestureStartHeight.current = (heightAnim as any)._value;
+      },
+
+      onPanResponderMove: (_, gestureState) => {
+        let newHeight = gestureStartHeight.current - gestureState.dy;
+
+        if (newHeight < MIN_HEIGHT) {
+          onClose();
+        } else if (newHeight > MAX_HEIGHT) {
+          newHeight = MAX_HEIGHT;
+        }
+        heightAnim.setValue(newHeight);
+      },
+
+      onPanResponderRelease: (_, gestureState) => {
+        const finalHeight = gestureStartHeight.current - gestureState.dy;
+        const midPoint = (DEFAULT_HEIGHT + MAX_HEIGHT) / 2;
+
+        if (gestureState.vy > 0.5 && finalHeight < MIN_HEIGHT) {
+          onClose();
+          return;
+        }
+
+        let targetHeight = finalHeight > midPoint ? MAX_HEIGHT : DEFAULT_HEIGHT;
+
+        Animated.spring(heightAnim, {
+          toValue: targetHeight,
+          useNativeDriver: false,
+        }).start();
+      },
+    })
+  ).current;
 
   if (!open) return null;
 
@@ -55,39 +77,25 @@ export default function BottomSheet({
       visible
       transparent
       statusBarTranslucent
-      animationType="none"
-      onRequestClose={() => handleClose()}
+      animationType="slide"
+      onRequestClose={onClose}
     >
-      <Pressable style={styles.backdrop} onPress={() => handleClose()} />
+      <Pressable style={styles.backdrop} onPress={onClose} />
 
       <Animated.View
-        style={[
-          styles.sheetContainer,
-          {
-            transform: [
-              {
-                translateY: positionY.interpolate({
-                  inputRange: [OPEN_Y, CLOSED_Y],
-                  outputRange: [OPEN_Y, CLOSED_Y],
-                  extrapolate: 'clamp',
-                }),
-              },
-            ],
-          },
-        ]}
+        style={[styles.sheetContainer, { height: heightAnim }]}
       >
         <View
           style={[
             styles.sheet,
             {
               paddingBottom: 20 + insets.bottom,
-              paddingTop: 20,
-              paddingLeft: 20,
-              paddingRight: 20,
             },
           ]}
         >
-          <View style={styles.handle} />
+          <View {...pan.panHandlers} style={styles.handleContainer}>
+            <View style={styles.handle} />
+          </View>
           {children}
         </View>
       </Animated.View>
