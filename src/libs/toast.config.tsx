@@ -1,12 +1,13 @@
 import { BaseToast, ErrorToast } from "react-native-toast-message";
+import { colors } from "../components/constants/colors";
 
 export const toastConfig = {
   success: (props: any) => (
     <BaseToast
       {...props}
       style={{
-        borderLeftColor: '#34C759',
-        backgroundColor: '#2C2C2E',
+        borderLeftColor: colors.success,
+        backgroundColor: colors.toastBg,
         borderRadius: 10,
       }}
       contentContainerStyle={{ paddingHorizontal: 15 }}
@@ -26,12 +27,12 @@ export const toastConfig = {
     <ErrorToast
       {...props}
       style={{
-        borderLeftColor: '#FF3B30',
-        backgroundColor: '#2C2C2E',
+        borderLeftColor: colors.error,
+        backgroundColor: colors.toastBg,
         borderRadius: 10,
       }}
       text1Style={{
-        color: '#fff',
+        color: colors.white,
         fontSize: 16,
         fontWeight: '600',
       }}
@@ -47,11 +48,11 @@ export const toastConfig = {
       {...props}
       style={{
         borderLeftColor: '#007AFF',
-        backgroundColor: '#2C2C2E',
+        backgroundColor: colors.toastBg,
         borderRadius: 10,
       }}
       text1Style={{
-        color: '#fff',
+        color: colors.white,
         fontSize: 16,
         fontWeight: '600',
       }}

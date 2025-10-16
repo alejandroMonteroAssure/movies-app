@@ -47,7 +47,6 @@ export default function MoviesCarrousel({
   };
 
   const handleAddWishlist = () => {
-    console.log('movie to be in wishlist', movie)
     addToWishlist(popularMovies[activeIndex])
   }
 

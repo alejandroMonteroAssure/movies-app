@@ -36,14 +36,14 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
       await saveWishlist(updated);
       Toast.show({
         type: 'success',
-        text1: 'Success!',
-        text2: 'Your item has been saved successfully.',
+        text1: 'Movie added!',
+        text2: 'The movie has been saved successfully.',
       })
     } else {
       Toast.show({
         type: 'error',
-        text1: 'Error',
-        text2: 'The movie has already been added in your wishlist.',
+        text1: 'Movie already added',
+        text2: 'The movie has already been added.',
       })
     }
   };
