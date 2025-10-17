@@ -12,6 +12,9 @@ import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { RootStackParamList } from './types';
 import SeeMoreScreen from '../screens/SeeMoreScreen/SeeMoreScreen';
+import { toastConfig } from '../libs/toast.config';
+import Toast from 'react-native-toast-message';
+import WishlistScreen from '../screens/WishlistScreen/WishlistScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
