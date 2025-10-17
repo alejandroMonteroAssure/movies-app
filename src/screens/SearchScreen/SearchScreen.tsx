@@ -10,7 +10,6 @@ import { GetMoviesByQuery } from '../../services/application/getMoviesByQuery';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
 import { styles } from './SearchScreen.style';
-import BottomNavigation from '../../components/organisms/BottomNavigation/BottomNavigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
@@ -68,7 +67,6 @@ export const SearchScreen: React.FC<Props> = () => {
           </ScrollView>
         )}
       </SafeAreaView>
-      <BottomNavigation />
     </GestureHandlerRootView>
   );
 };

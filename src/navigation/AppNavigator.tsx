@@ -1,15 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import type { RootStackParamList } from './types';
+import { StatusBar } from 'react-native';
+
 import HomeScreen from '../screens/HomeScreen';
 import DetailsScreen from '../screens/DetailsScreen';
-import { StatusBar } from 'react-native';
 import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
+import { AppLayout } from './AppLayout';
+
+export type RootStackParamList = {
+  Home: undefined;
+  Search: undefined;
+  Details: { itemId: number };
+  Wishlist: undefined;
+  Profile: undefined;
+};
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('Home');
+
+  const renderWithLayout = (
+    Component: React.ComponentType<any>,
+    name: string,
+  ) => {
+    return (props: any) => (
+      <AppLayout activeTab={activeTab} onTabPress={setActiveTab}>
+        <Component {...props} />
+      </AppLayout>
+    );
+  };
+
   return (
     <>
       <StatusBar
@@ -20,24 +42,19 @@ const AppNavigator: React.FC = () => {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Home"
-          screenOptions={{
-            headerShown: false,
-          }}
+          screenOptions={{ headerShown: false }}
         >
           <Stack.Screen
             name="Home"
-            component={HomeScreen}
-            options={{ title: 'Inicio' }}
-          />
-          <Stack.Screen
-            name="Details"
-            component={DetailsScreen}
-            options={{ title: 'Detalles' }}
+            component={renderWithLayout(HomeScreen, 'Home')}
           />
           <Stack.Screen
             name="Search"
-            component={SearchScreen}
-            options={{ title: 'Buscar' }}
+            component={renderWithLayout(SearchScreen, 'Search')}
+          />
+          <Stack.Screen
+            name="Details"
+            component={renderWithLayout(DetailsScreen, 'Details')}
           />
         </Stack.Navigator>
       </NavigationContainer>
