@@ -21,7 +21,6 @@ const WishlistScreen: React.FC<Props> = ({ route, navigation }) => {
         <View style={WishlistScreenStyle.content}>
           <MoviesVerticalList listTitle="My List" movies={wishlist} />
         </View>
-        <BottomNavigation />
       </SafeAreaView>
     </GestureHandlerRootView>
   );

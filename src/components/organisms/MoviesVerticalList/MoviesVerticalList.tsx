@@ -19,7 +19,9 @@ const MoviesVerticalList = ({ listTitle, movies }: MoviesListProps) => {
         data={movies}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => <MovieItem item={item} />}
+        renderItem={({ item }) => (
+          <MovieItem item={item} isVerticalMode={true} />
+        )}
         contentContainerStyle={MoviesVerticalListStyles.listContent}
       />
     </View>
