@@ -2,19 +2,11 @@ import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
-
 import HomeScreen from '../screens/HomeScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
 import { AppLayout } from './AppLayout';
-
-export type RootStackParamList = {
-  Home: undefined;
-  Search: undefined;
-  Details: { itemId: number };
-  Wishlist: undefined;
-  Profile: undefined;
-};
+import { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
