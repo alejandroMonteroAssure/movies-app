@@ -1,9 +1,9 @@
 import { FlatList, View } from 'react-native';
 import { Movie } from '../../../services/domain/Movie';
 import { CustomText } from '../../atoms/CustomText/CustomText';
-import { Button } from '../../atoms/Button/Button';
 import MovieItem from '../../molecules/movieItem/MovieItem';
 import { MoviesVerticalListStyles } from './MoviesVerticalList.styles';
+import { IconButton } from '../../atoms/IconButton/IconButton';
 
 type MoviesListProps = {
   listTitle: string;
@@ -20,7 +20,15 @@ const MoviesVerticalList = ({ listTitle, movies }: MoviesListProps) => {
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id.toString()}
         renderItem={({ item }) => (
-          <MovieItem item={item} isVerticalMode={true} />
+          <View style={MoviesVerticalListStyles.itemContainer}>
+            <MovieItem item={item} isVerticalMode={true} />
+            <IconButton
+              icon="trash"
+              label="Remove"
+              active={false}
+              onPress={() => console.log('delete', item.id)}
+            />
+          </View>
         )}
         contentContainerStyle={MoviesVerticalListStyles.listContent}
       />

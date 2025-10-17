@@ -4,11 +4,9 @@ export const MoviesVerticalListStyles = StyleSheet.create({
   listContent: {
     paddingVertical: 10,
   },
-  headerMovie: {
+  itemContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: 25,
-    paddingTop: 30,
   },
 });
