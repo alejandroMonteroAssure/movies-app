@@ -11,6 +11,7 @@ import { Options } from '../../../services/domain/Options';
 import { TMDBRepository } from '../../../services/infrastructure/TMDBRepository';
 import { GetFilteredMovies } from '../../../services/application/GetFileredMovies';
 import { GetTopRatedMovies } from '../../../services/application/GetTopRatedMovies';
+import { useNavigation } from '@react-navigation/native';
 
 type MoviesListProps = {
   listTitle: string;
@@ -29,6 +30,7 @@ const MoviesList = ({
 }: MoviesListProps) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation<any>();
 
   const fetchMovies = async () => {
     setLoading(true);
@@ -58,7 +60,7 @@ const MoviesList = ({
       <View style={MoviesListStyles.headerMovie}>
         <CustomText variant="subtitle">{listTitle}</CustomText>
         <Button
-          onPress={() => console.log('see more', movies)}
+          onPress={() => navigation.navigate("SeeMore")}
           title="See more"
           variant="tertiary"
         />
