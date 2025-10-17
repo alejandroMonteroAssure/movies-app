@@ -13,7 +13,6 @@ import { Genre } from '../services/domain/Genre';
 import Navbar from '../components/Navbar/Navbar';
 import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
-import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { GetFilteredMovies } from '../services/application/GetFileredMovies';
 import DetailsModal from '../components/DetailsModal/DetailsModal';
 
@@ -134,7 +133,6 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             </>
           )}
         </ScrollView>
-        <BottomNavigation />
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
