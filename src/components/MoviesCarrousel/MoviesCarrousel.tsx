@@ -20,6 +20,7 @@ import { useWishlist } from '../../context/WishlistContext';
 
 type MoviesCarrouselProps = {
   popularMovies: Movie[];
+  onPressDetails: (movie: Movie) => void;
 };
 
 configureReanimatedLogger({
@@ -28,7 +29,7 @@ configureReanimatedLogger({
 });
 
 export default function MoviesCarrousel({
-  popularMovies,
+  popularMovies, onPressDetails
 }: MoviesCarrouselProps) {
   const insets = useSafeAreaInsets();
   const ref = React.useRef<ICarouselInstance>(null);
@@ -84,7 +85,8 @@ export default function MoviesCarrousel({
 
         <View style={moviesCarrouselStyles.buttonsContainer}>
           <Button title="+ Wishlist" variant="secondary" onPress={handleAddWishlist} />
-          <Button title="Details" variant="primary" onPress={() => { }} />
+          <Button title="Details" variant="primary" onPress={() => onPressDetails(movie)} />
+
         </View>
       </LinearGradient>
       <Pagination.Basic

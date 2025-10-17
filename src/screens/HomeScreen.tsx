@@ -15,6 +15,7 @@ import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { GetFilteredMovies } from '../services/application/GetFileredMovies';
+import DetailsModal from '../components/DetailsModal/DetailsModal';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -27,6 +28,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [activeGenreId, setActiveGenreId] = useState<number>(0);
+  const [selectedMovie, setSelectedMovie] = useState<Movie>();
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const isFiltered = activeGenreId !== 0;
 
@@ -78,7 +81,16 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
             onSelect={setActiveGenreId}
           />
 
-          <MoviesCarrousel popularMovies={popularMovies} />
+          <MoviesCarrousel
+            popularMovies={popularMovies}
+            onPressDetails={(movie) => { setDetailsOpen(true); setSelectedMovie(movie); }}
+          />
+
+          <DetailsModal
+            open={detailsOpen}
+            onClose={() => setDetailsOpen(false)}
+            movie={selectedMovie}
+          />
 
           {isFiltered ? (
             <>
