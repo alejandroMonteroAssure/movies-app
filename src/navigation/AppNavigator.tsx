@@ -1,61 +1,64 @@
 import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
-import { AppLayout } from './AppLayout';
+import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { RootStackParamList } from './types';
-import { toastConfig } from '../libs/toast.config';
-import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Home');
 
-  const renderWithLayout = (
-    Component: React.ComponentType<any>,
-    name: string,
-  ) => {
-    return (props: any) => (
-      <AppLayout activeTab={activeTab} onTabPress={setActiveTab}>
-        <Component {...props} />
-      </AppLayout>
-    );
+  const navigationRef = useNavigationContainerRef();
+
+  const handleStateChange = () => {
+    const currentRoute = navigationRef.getCurrentRoute();
+    if (!currentRoute) return;
+
+    const { name } = currentRoute;
+    if (['Home', 'Search', 'Wishlist', 'Profile'].includes(name)) {
+      setActiveTab(name);
+    }
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <StatusBar
         barStyle={'light-content'}
         backgroundColor="transparent"
         translucent
       />
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen
-            name="Home"
-            component={renderWithLayout(HomeScreen, 'Home')}
-          />
-          <Stack.Screen
-            name="Search"
-            component={renderWithLayout(SearchScreen, 'Search')}
-          />
-          <Stack.Screen
-            name="Details"
-            component={renderWithLayout(DetailsScreen, 'Details')}
-          />
-        </Stack.Navigator>
+      <NavigationContainer
+        ref={navigationRef}
+        onStateChange={handleStateChange}
+      >
+        <View style={styles.content}>
+          <Stack.Navigator
+            initialRouteName="Home"
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Search" component={SearchScreen} />
+            <Stack.Screen name="Details" component={DetailsScreen} />
+          </Stack.Navigator>
+        </View>
+        <BottomNavigation activeTab={activeTab} onTabPress={setActiveTab} />
       </NavigationContainer>
-
-      <Toast config={toastConfig} visibilityTime={2500} />
-    </>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  content: { flex: 1 },
+});
 
 export default AppNavigator;
