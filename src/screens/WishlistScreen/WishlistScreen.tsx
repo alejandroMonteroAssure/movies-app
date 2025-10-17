@@ -13,13 +13,17 @@ import { WishlistScreenStyle } from './WishlistScreen.style';
 type Props = NativeStackScreenProps<RootStackParamList, 'Wishlist'>;
 
 const WishlistScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { wishlist } = useWishlist();
+  const { wishlist, removeFromWishlist } = useWishlist();
 
   return (
     <GestureHandlerRootView style={WishlistScreenStyle.root}>
       <SafeAreaView style={WishlistScreenStyle.safeArea}>
         <View style={WishlistScreenStyle.content}>
-          <MoviesVerticalList listTitle="My List" movies={wishlist} />
+          <MoviesVerticalList
+            listTitle="My List"
+            movies={wishlist}
+            onRemoveMovie={removeFromWishlist}
+          />
         </View>
       </SafeAreaView>
     </GestureHandlerRootView>

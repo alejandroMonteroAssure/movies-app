@@ -8,30 +8,46 @@ import { IconButton } from '../../atoms/IconButton/IconButton';
 type MoviesListProps = {
   listTitle: string;
   movies: Movie[];
+  onRemoveMovie?: (movieId: number) => void;
 };
 
-const MoviesVerticalList = ({ listTitle, movies }: MoviesListProps) => {
+const MoviesVerticalList = ({
+  listTitle,
+  movies,
+  onRemoveMovie,
+}: MoviesListProps) => {
   return (
     <View>
       <CustomText variant="subtitle">{listTitle}</CustomText>
 
-      <FlatList
-        data={movies}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={MoviesVerticalListStyles.itemContainer}>
-            <MovieItem item={item} isVerticalMode={true} />
-            <IconButton
-              icon="trash"
-              label="Remove"
-              active={false}
-              onPress={() => console.log('delete', item.id)}
-            />
-          </View>
-        )}
-        contentContainerStyle={MoviesVerticalListStyles.listContent}
-      />
+      {movies.length === 0 ? (
+        <CustomText
+          variant="body"
+          style={{ textAlign: 'center', marginTop: 20 }}
+        >
+          No movies in your list.
+        </CustomText>
+      ) : (
+        <FlatList
+          data={movies}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={MoviesVerticalListStyles.itemContainer}>
+              <MovieItem item={item} isVerticalMode />
+              {onRemoveMovie && (
+                <IconButton
+                  icon="trash"
+                  label="Remove"
+                  active={false}
+                  onPress={() => onRemoveMovie(item.id)}
+                />
+              )}
+            </View>
+          )}
+          contentContainerStyle={MoviesVerticalListStyles.listContent}
+        />
+      )}
     </View>
   );
 };
