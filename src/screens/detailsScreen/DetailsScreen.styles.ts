@@ -31,4 +31,11 @@ export const DetailsScreenStyles = StyleSheet.create({
   overview: {
     padding: 20,
   },
+  metaRow: {
+    paddingHorizontal: 10,
+    marginTop: 10,
+    flexDirection: 'row',
+    gap: 8,
+    flexWrap: 'wrap',
+  }
 });

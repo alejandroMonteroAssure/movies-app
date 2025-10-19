@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  Button,
-  ActivityIndicator,
-  Dimensions,
-  ScrollView,
-} from 'react-native';
+import { View, ActivityIndicator, Dimensions, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
 import { TMDBRepository } from '../../services/infrastructure/TMDBRepository';
@@ -18,6 +11,7 @@ import MovieBanner from '../../components/atoms/MovieBanner/MovieBanner';
 import { IconButton } from '../../components/atoms/IconButton/IconButton';
 import { useWishlist } from '../../context/WishlistContext';
 import { colors } from '../../components/constants/colors';
+import Chip from '../../components/atoms/chip/Chip';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
@@ -71,7 +65,16 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
         />
       </View>
 
-      <CustomText style={DetailsScreenStyles.overview}>{movie.overview}</CustomText>
+      <View style={DetailsScreenStyles.metaRow}>
+        <Chip>{new Date(movie!.releaseDate).getFullYear()}</Chip>
+        <Chip>★ {movie!.voteAverage.toFixed(1)}</Chip>
+        <Chip>{movie!.originalLanguage.toUpperCase()}</Chip>
+      </View>
+
+      <CustomText style={DetailsScreenStyles.overview}>
+        {movie.overview}
+      </CustomText>
+      
       <IconButton
         icon="arrow-back"
         onPress={() => navigation.goBack()}

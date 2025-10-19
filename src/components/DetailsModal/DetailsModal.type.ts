@@ -57,18 +57,6 @@ export const styles = StyleSheet.create({
     gap: 8,
     flexWrap: 'wrap',
   },
-  chip: {
-    backgroundColor: '#222',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 999,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#333',
-  },
-  chipText: {
-    color: '#bbb',
-    fontSize: 12,
-  },
   overview: {
     color: '#ddd',
     lineHeight: 20,
