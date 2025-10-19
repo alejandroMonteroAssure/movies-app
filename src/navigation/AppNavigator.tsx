@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
-import DetailsScreen from '../screens/DetailsScreen';
+import DetailsScreen from '../screens/detailsScreen/DetailsScreen';
 import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { RootStackParamList } from './types';

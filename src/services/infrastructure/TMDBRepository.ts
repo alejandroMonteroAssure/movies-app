@@ -94,7 +94,7 @@ export class TMDBRepository implements IMovieRepository {
       });
 
       const videos: Video[] = response.data.results.filter(
-        (v: Video) => v.site === 'YouTube'
+        (v: Video) => v.site === 'YouTube' && v.type === 'Trailer'
       );
 
       return videos;

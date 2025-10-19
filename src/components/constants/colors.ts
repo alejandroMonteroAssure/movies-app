@@ -23,6 +23,7 @@ export const colors = {
   toastBg: '#2C2C2E',
   error: '#FF3B30',
   success: '#34C759',
+  goBackBg: '#00000088',
 };
 
 export const gradients = {
