@@ -9,7 +9,7 @@ import { AppLayout } from './AppLayout';
 import { RootStackParamList } from './types';
 import { toastConfig } from '../libs/toast.config';
 import Toast from 'react-native-toast-message';
-import { SeeMoreScreen } from '../screens/SeeMoreScreen/SeeMoreScreen';
+import SeeMoreScreen from '../screens/SeeMoreScreen/SeeMoreScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
