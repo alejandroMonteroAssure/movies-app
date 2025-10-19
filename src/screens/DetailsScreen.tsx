@@ -6,6 +6,8 @@ import { RootStackParamList } from '../navigation/types';
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
 const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { movie } = route.params;
+  
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Details Screen</Text>

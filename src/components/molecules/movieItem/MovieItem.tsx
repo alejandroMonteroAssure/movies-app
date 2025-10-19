@@ -18,7 +18,7 @@ const MovieItem = ({item} : MovieItemProps) => {
     const navigation = useNavigation<HomeScreenNavigationProp>()
 
     return (
-        <TouchableOpacity style={MovieItemStyles.card} onPress={() => navigation.navigate('Details', {itemId: item.id})}>
+        <TouchableOpacity style={MovieItemStyles.card} onPress={() => navigation.navigate('Details', {itemId: item.id, movie: item})}>
             <MovieBanner movie={item} width={120} customStyle={MovieItemStyles.poster}/>
             <CustomText numberOfLines={1}>{item.originalTitle}</CustomText>
         </TouchableOpacity>

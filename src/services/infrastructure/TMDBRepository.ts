@@ -5,6 +5,7 @@ import { mapToDomain } from './Mappers';
 import { Genre } from '../domain/Genre';
 import { httpClient, handleAxiosError } from './httpClient';
 import { Options } from '../domain/Options';
+import { Video } from '../domain/Video';
 
 export class TMDBRepository implements IMovieRepository {
   async getPopularMovies(page: number): Promise<Movie[]> {
@@ -80,6 +81,23 @@ export class TMDBRepository implements IMovieRepository {
       });
 
       return response.data.results.map(mapToDomain);
+    } catch (error) {
+      handleAxiosError(error);
+      return [];
+    }
+  }
+
+  async getMovieVideos(movieId: number): Promise<Video[]> {
+    try {
+      const response = await httpClient.get(`/movie/${movieId}/videos`, {
+        params: { language: 'es-ES' },
+      });
+
+      const videos: Video[] = response.data.results.filter(
+        (v: Video) => v.site === 'YouTube'
+      );
+
+      return videos;
     } catch (error) {
       handleAxiosError(error);
       return [];
