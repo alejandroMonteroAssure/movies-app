@@ -8,8 +8,6 @@ type Props = NativeStackScreenProps<RootStackParamList, 'SeeMore'>;
 const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Button title="Go Back" onPress={() => navigation.goBack()} />
     </View>
   );
 };
