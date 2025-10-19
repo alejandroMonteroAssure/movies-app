@@ -7,11 +7,11 @@ type MovieProps = {
     width: number;
     height?: number;
     customStyle?: StyleProp<ImageStyle>;
-    type?: boolean;
+    posterImg?: boolean;
 }
 
-const MovieBanner = ({ movie, width, height, customStyle, type  }: MovieProps) => {
-    const imageType = (type === undefined ? movie.backdropPath : movie.posterPath);
+const MovieBanner = ({ movie, width, height, customStyle, posterImg  }: MovieProps) => {
+    const imageType = (posterImg === undefined ? movie.backdropPath : movie.posterPath);
     return (
         <Image
             source={{ uri: `${TMDB_IMAGE_BASE_URL}/original${imageType}` }}
