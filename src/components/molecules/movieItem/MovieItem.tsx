@@ -12,7 +12,7 @@ type MovieItemProps = {
 const MovieItem = ({item} : MovieItemProps) => {
     return (
         <TouchableOpacity style={MovieItemStyles.card} onPress={() => console.log(item.originalTitle)}>
-            <MovieBanner movie={item} width={120} customStyle={MovieItemStyles.poster}/>
+            <MovieBanner movie={item} width={120} customStyle={MovieItemStyles.poster} posterImg/>
             <CustomText numberOfLines={1}>{item.originalTitle}</CustomText>
         </TouchableOpacity>
     )
