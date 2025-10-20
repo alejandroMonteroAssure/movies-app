@@ -7,13 +7,13 @@ import {
 } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
-import DetailsScreen from '../screens/DetailsScreen';
+import DetailsScreen from '../screens/detailsScreen/DetailsScreen';
 import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { RootStackParamList } from './types';
 import SeeMoreScreen from '../screens/SeeMoreScreen/SeeMoreScreen';
-import { toastConfig } from '../libs/toast.config';
 import Toast from 'react-native-toast-message';
+import { toastConfig } from '../libs/toast.config';
 import WishlistScreen from '../screens/WishlistScreen/WishlistScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -57,8 +57,9 @@ const AppNavigator: React.FC = () => {
           </Stack.Navigator>
         </View>
         <BottomNavigation activeTab={activeTab} onTabPress={setActiveTab} />
+
+        <Toast config={toastConfig} visibilityTime={2500} />
       </NavigationContainer>
-      <Toast config={toastConfig} visibilityTime={2500} />
     </View>
   );
 };

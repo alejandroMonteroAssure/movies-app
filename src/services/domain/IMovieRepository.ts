@@ -1,6 +1,7 @@
 import { Genre } from './Genre';
 import { Movie } from './Movie';
 import { Options } from './Options';
+import { Video } from './Video';
 
 export interface IMovieRepository {
   getPopularMovies(page: number): Promise<Movie[]>;
@@ -9,4 +10,5 @@ export interface IMovieRepository {
   getTopRatedMovies(page: number): Promise<Movie[]>;
   getMoviesByQuery(query: string): Promise<Movie[]>;
   getFilteredMovies(params: Options): Promise<Movie[]>;
+  getMovieVideos(movieId: number): Promise<Video[]>;
 }

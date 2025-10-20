@@ -6,6 +6,7 @@ import { Dimensions, View } from 'react-native';
 import { styles } from './DetailsModal.type';
 import { CustomText } from '../atoms/CustomText/CustomText';
 import { useState } from 'react';
+import Chip from '../atoms/chip/Chip';
 
 type DetailsModalProps = {
   open: boolean;
@@ -48,21 +49,11 @@ export default function DetailsModal({
             {movie?.originalTitle}
           </CustomText>
           <View style={styles.metaRow}>
-            <View style={styles.chip}>
-              <CustomText style={styles.chipText}>
-                {new Date(movie!.releaseDate).getFullYear()}
-              </CustomText>
-            </View>
-            <View style={styles.chip}>
-              <CustomText style={styles.chipText}>
-                ★ {movie!.voteAverage.toFixed(1)}
-              </CustomText>
-            </View>
-            <View style={styles.chip}>
-              <CustomText style={styles.chipText}>
-                {movie!.originalLanguage.toUpperCase()}
-              </CustomText>
-            </View>
+            <Chip>{new Date(movie!.releaseDate).getFullYear()}</Chip>
+            <Chip>
+              ★ {movie!.voteAverage.toFixed(1)}
+            </Chip>
+            <Chip>{movie!.originalLanguage.toUpperCase()}</Chip>
             <CustomText style={styles.overview}>{movie!.overview}</CustomText>
           </View>
           <View style={{height: screenH * 0.1}}/>

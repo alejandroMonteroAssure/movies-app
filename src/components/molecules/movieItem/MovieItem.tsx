@@ -1,9 +1,14 @@
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Movie } from '../../../services/domain/Movie';
 import { MovieItemStyles } from './MovieItem.styles';
 import { CustomText } from '../../atoms/CustomText/CustomText';
 import MovieBanner from '../../atoms/MovieBanner/MovieBanner';
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../../../navigation/types'
+
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 type MovieItemProps = {
   item: Movie;
@@ -11,10 +16,12 @@ type MovieItemProps = {
 };
 
 const MovieItem = ({ item, isVerticalMode = false }: MovieItemProps) => {
+    const navigation = useNavigation<HomeScreenNavigationProp>()
+
   return isVerticalMode ? (
     <TouchableOpacity
       style={MovieItemStyles.verticalCard}
-      onPress={() => console.log(item.originalTitle)}
+      onPress={() => navigation.navigate('Details', {itemId: item.id, movie: item})}
     >
       <MovieBanner
         movie={item}
@@ -29,13 +36,13 @@ const MovieItem = ({ item, isVerticalMode = false }: MovieItemProps) => {
   ) : (
     <TouchableOpacity
       style={MovieItemStyles.card}
-      onPress={() => console.log(item.originalTitle)}
+      onPress={() => navigation.navigate('Details', {itemId: item.id, movie: item})}
     >
       <MovieBanner
         movie={item}
         width={120}
         customStyle={MovieItemStyles.poster}
-        posterImg
+       
       />
       <CustomText numberOfLines={1}>{item.originalTitle}</CustomText>
     </TouchableOpacity>
