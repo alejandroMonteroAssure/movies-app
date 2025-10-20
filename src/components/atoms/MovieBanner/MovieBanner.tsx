@@ -15,7 +15,7 @@ const MovieBanner = ({ movie, width, height, customStyle, posterImg }: MovieProp
     const [loading, setLoading] = useState(true);
     const imageType = (posterImg === undefined ? movie.backdropPath : movie.posterPath);
     const imageWidth = width;
-    const imageHeight = width * 1.5;
+    const imageHeight = height === undefined ? width * 1.5 : height;
     return (
         <View style={{
             width: imageWidth,
