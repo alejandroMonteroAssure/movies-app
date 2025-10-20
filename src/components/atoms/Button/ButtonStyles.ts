@@ -18,6 +18,10 @@ export const styles = StyleSheet.create({
   tertiary: {
     backgroundColor: 'transparent',
   },
+  fourth: {
+    backgroundColor: 'transparent',
+    paddingVertical: 0,
+  },
   disabled: {
     opacity: 0.5,
   },

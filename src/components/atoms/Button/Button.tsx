@@ -24,7 +24,7 @@ export const Button = ({
       case 'tertiary':
         return styles.tertiary;
       case 'fourth':
-        return styles.tertiary;
+        return styles.fourth;
       default:
         return styles.primary;
     }

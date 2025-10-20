@@ -15,7 +15,11 @@ import {
 } from './MoviesCarrousel.styles';
 import { CustomText } from '../atoms/CustomText/CustomText';
 import { Button } from '../atoms/Button/Button';
-import { useSharedValue, configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
+import {
+  useSharedValue,
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from 'react-native-reanimated';
 import { useWishlist } from '../../context/WishlistContext';
 
 type MoviesCarrouselProps = {
@@ -29,7 +33,8 @@ configureReanimatedLogger({
 });
 
 export default function MoviesCarrousel({
-  popularMovies, onPressDetails
+  popularMovies,
+  onPressDetails,
 }: MoviesCarrouselProps) {
   const insets = useSafeAreaInsets();
   const ref = React.useRef<ICarouselInstance>(null);
@@ -48,8 +53,8 @@ export default function MoviesCarrousel({
   };
 
   const handleAddWishlist = () => {
-    addToWishlist(popularMovies[activeIndex])
-  }
+    addToWishlist(popularMovies[activeIndex]);
+  };
 
   return (
     <View style={{ position: 'relative' }}>
@@ -79,14 +84,29 @@ export default function MoviesCarrousel({
         style={moviesCarrouselStyles.bottomGradientContainer}
       >
         <View style={moviesCarrouselStyles.rowBetween}>
-          <CustomText variant="subtitle">My List</CustomText>
-          <CustomText variant="subtitle">Discover</CustomText>
+          <Button
+            title="My List"
+            variant="fourth"
+            onPress={() => console.log('My List pressed')}
+          />
+          <Button
+            title="Discover"
+            variant="fourth"
+            onPress={() => console.log('Discover pressed')}
+          />
         </View>
 
         <View style={moviesCarrouselStyles.buttonsContainer}>
-          <Button title="+ Wishlist" variant="secondary" onPress={handleAddWishlist} />
-          <Button title="Details" variant="primary" onPress={() => onPressDetails(movie)} />
-
+          <Button
+            title="+ Wishlist"
+            variant="secondary"
+            onPress={handleAddWishlist}
+          />
+          <Button
+            title="Details"
+            variant="primary"
+            onPress={() => onPressDetails(movie)}
+          />
         </View>
       </LinearGradient>
       <Pagination.Basic
