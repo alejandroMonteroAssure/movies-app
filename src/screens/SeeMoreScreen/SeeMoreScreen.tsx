@@ -92,7 +92,7 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
       ) : (
         <FlatList
           data={movies}
-          keyExtractor={m => String(m.id)}
+          keyExtractor={movie => String(movie.id)}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={seeMoreScreenStyles.gridContentContainer}
