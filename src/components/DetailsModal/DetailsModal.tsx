@@ -32,7 +32,7 @@ export default function DetailsModal({
           showsVerticalScrollIndicator={false}
           onLayout={event => {
             const measuredHeight = event.nativeEvent.layout.height;
-            setContentH(measuredHeight + measuredHeight * 0.15);
+            setContentH(measuredHeight + measuredHeight * 0.10);
           }}
         >
           <View style={styles.posterWrap}>

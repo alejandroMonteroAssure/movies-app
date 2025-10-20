@@ -29,7 +29,7 @@ export default function BottomSheet({
   const DEFAULT_HEIGHT = screenH * 0.5;
   const MIN_HEIGHT = screenH * 0.25;
   const MAX_HEIGHT = contentHeight;
-  const ABSOLUTE_SCREEN_MAX = screenH * 0.85;
+  const ABSOLUTE_SCREEN_MAX = screenH * 0.75;
 
   const latestHeights = useRef({
     MIN: MIN_HEIGHT,
