@@ -30,9 +30,9 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
   const { studio } = route.params;
   const { studioInfo, loading } = useInfoByStudio(studio);
   const { movies, loading: loadingMovies } = useMoviesByStudio(studio, false);
-
   const [ratio, setRatio] = useState<number | undefined>(undefined);
   const logoUri = `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}`;
+  const [loadingStudioImage, setLoadingStudioImage] = useState(false);
 
   const screenW = Dimensions.get('window').width;
 
@@ -44,7 +44,7 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
     let alive = true;
     Image.getSize(
       logoUri,
-      (w, h) => alive && setRatio(w / h),
+      (width, height) => alive && setRatio(width / height),
       () => alive && setRatio(undefined),
     );
     return () => {
@@ -72,7 +72,25 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
             }}
             style={[{ width: screenW * 0.6, aspectRatio: ratio ?? 2.5 }]}
             resizeMode="contain"
+            onLoadStart={() => setLoadingStudioImage(true)}
+            onLoadEnd={() => setLoadingStudioImage(false)}
           />
+          {
+            loadingStudioImage && (
+              <View
+                style={{
+                  width: screenW * 0.6,
+                  aspectRatio: ratio ?? 2.5,
+                  position: 'absolute',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <ActivityIndicator size="small" color="#999" />
+              </View>
+            )
+          }
+
         </View>
         <LinearGradient
           colors={bottomGradientColors}
