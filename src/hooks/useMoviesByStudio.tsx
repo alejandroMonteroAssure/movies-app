@@ -4,7 +4,7 @@ import { TMDBRepository } from "../services/infrastructure/TMDBRepository";
 import { GetMoviesByStudio } from "../services/application/GetMoviesByStudio";
 import { curatedStudios } from "../services/domain/CuratedCompanies";
 
-export const useMoviesByStudio = (company: string) => {
+export const useMoviesByStudio = (company: string, isLimited: boolean) => {
   const movieRepository = new TMDBRepository();
   const getMoviesByStudio = new GetMoviesByStudio(movieRepository);
 
@@ -23,7 +23,7 @@ export const useMoviesByStudio = (company: string) => {
     try {
       const data = await getMoviesByStudio.execute(studioId, 1);
       console.log('moviesbystudio', data)
-      setMovies(data.slice(0, 10));
+      setMovies(isLimited? data.slice(0, 10): data);
     } catch (err) {
       console.error("Error fetching movies by studio:", err);
     } finally {

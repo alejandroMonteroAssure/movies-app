@@ -4,5 +4,5 @@ export type RootStackParamList = {
   Details: { itemId: number };
   Wishlist: undefined;
   Profile: undefined;
-  SeeMore: { studioId: number};
+  SeeMore: { studio: string};
 };

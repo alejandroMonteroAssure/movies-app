@@ -60,7 +60,7 @@ const MoviesList = ({
       <View style={MoviesListStyles.headerMovie}>
         <CustomText variant="subtitle">{listTitle}</CustomText>
         <Button
-          onPress={() => navigation.navigate("SeeMore")}
+          onPress={() => navigation.navigate("SeeMore", {studio: listTitle})}
           title="See more"
           variant="tertiary"
         />

@@ -41,7 +41,7 @@ export default function DetailsModal({
               width={screenW * 0.75}
               height={screenW * 1}
               customStyle={{ borderRadius: 16 }}
-              type
+              posterImg
             />
           </View>
           <CustomText variant="title" style={styles.title}>
