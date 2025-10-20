@@ -84,13 +84,6 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
         <CustomText variant="title" style={seeMoreScreenStyles.studioTitle}>
           {studioInfo.name}
         </CustomText>
-        <Pressable
-          style={seeMoreScreenStyles.sortChip}
-          onPress={() => {
-          }}
-        >
-          <Text style={seeMoreScreenStyles.sortChipText}>Popular</Text>
-        </Pressable>
       </View>
       {loadingMovies ? (
         <View style={seeMoreScreenStyles.loadingContainer}>
