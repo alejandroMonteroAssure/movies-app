@@ -21,6 +21,7 @@ import {
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
 import { useWishlist } from '../../context/WishlistContext';
+import { useNavigation } from '@react-navigation/native';
 
 type MoviesCarrouselProps = {
   popularMovies: Movie[];
@@ -42,6 +43,7 @@ export default function MoviesCarrousel({
   const progress = useSharedValue<number>(0);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const { addToWishlist } = useWishlist();
+  const navigation = useNavigation<any>();
 
   const movie = popularMovies[activeIndex];
 
@@ -54,6 +56,10 @@ export default function MoviesCarrousel({
 
   const handleAddWishlist = () => {
     addToWishlist(popularMovies[activeIndex]);
+  };
+
+  const handleNavigation = (tabName: string) => {
+    navigation.navigate(tabName as never);
   };
 
   return (
@@ -87,12 +93,12 @@ export default function MoviesCarrousel({
           <Button
             title="My List"
             variant="fourth"
-            onPress={() => console.log('My List pressed')}
+            onPress={() => handleNavigation('Wishlist')}
           />
           <Button
             title="Discover"
             variant="fourth"
-            onPress={() => console.log('Discover pressed')}
+            onPress={() => handleNavigation('Search')}
           />
         </View>
 
