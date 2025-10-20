@@ -15,8 +15,13 @@ import {
 } from './MoviesCarrousel.styles';
 import { CustomText } from '../atoms/CustomText/CustomText';
 import { Button } from '../atoms/Button/Button';
-import { useSharedValue, configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
+import {
+  useSharedValue,
+  configureReanimatedLogger,
+  ReanimatedLogLevel,
+} from 'react-native-reanimated';
 import { useWishlist } from '../../context/WishlistContext';
+import { useNavigation } from '@react-navigation/native';
 
 type MoviesCarrouselProps = {
   popularMovies: Movie[];
@@ -29,7 +34,8 @@ configureReanimatedLogger({
 });
 
 export default function MoviesCarrousel({
-  popularMovies, onPressDetails
+  popularMovies,
+  onPressDetails,
 }: MoviesCarrouselProps) {
   const insets = useSafeAreaInsets();
   const ref = React.useRef<ICarouselInstance>(null);
@@ -37,6 +43,7 @@ export default function MoviesCarrousel({
   const progress = useSharedValue<number>(0);
   const [activeIndex, setActiveIndex] = React.useState(0);
   const { addToWishlist } = useWishlist();
+  const navigation = useNavigation<any>();
 
   const movie = popularMovies[activeIndex];
 
@@ -48,8 +55,12 @@ export default function MoviesCarrousel({
   };
 
   const handleAddWishlist = () => {
-    addToWishlist(popularMovies[activeIndex])
-  }
+    addToWishlist(popularMovies[activeIndex]);
+  };
+
+  const handleNavigation = (tabName: string) => {
+    navigation.navigate(tabName as never);
+  };
 
   return (
     <View style={{ position: 'relative' }}>
@@ -79,14 +90,29 @@ export default function MoviesCarrousel({
         style={moviesCarrouselStyles.bottomGradientContainer}
       >
         <View style={moviesCarrouselStyles.rowBetween}>
-          <CustomText variant="subtitle">My List</CustomText>
-          <CustomText variant="subtitle">Discover</CustomText>
+          <Button
+            title="My List"
+            variant="fourth"
+            onPress={() => handleNavigation('Wishlist')}
+          />
+          <Button
+            title="Discover"
+            variant="fourth"
+            onPress={() => handleNavigation('Search')}
+          />
         </View>
 
         <View style={moviesCarrouselStyles.buttonsContainer}>
-          <Button title="+ Wishlist" variant="secondary" onPress={handleAddWishlist} />
-          <Button title="Details" variant="primary" onPress={() => onPressDetails(movie)} />
-
+          <Button
+            title="+ Wishlist"
+            variant="secondary"
+            onPress={handleAddWishlist}
+          />
+          <Button
+            title="Details"
+            variant="primary"
+            onPress={() => onPressDetails(movie)}
+          />
         </View>
       </LinearGradient>
       <Pagination.Basic
