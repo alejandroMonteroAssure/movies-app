@@ -26,7 +26,6 @@ const MovieBanner = ({ movie, width, height, customStyle, posterImg }: MovieProp
                         height: imageHeight,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        backgroundColor: '#636363ff',
                     }}
                 >
                     <ActivityIndicator size="small" color="#999" />
