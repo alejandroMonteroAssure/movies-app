@@ -37,5 +37,8 @@ export const DetailsScreenStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     flexWrap: 'wrap',
-  }
+  },
+  videoContainer: {
+    marginBottom: 0,
+  },
 });

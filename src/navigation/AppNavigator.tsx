@@ -12,6 +12,8 @@ import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { RootStackParamList } from './types';
 import SeeMoreScreen from '../screens/SeeMoreScreen/SeeMoreScreen';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from '../libs/toast.config';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -53,6 +55,8 @@ const AppNavigator: React.FC = () => {
           </Stack.Navigator>
         </View>
         <BottomNavigation activeTab={activeTab} onTabPress={setActiveTab} />
+
+        <Toast config={toastConfig} visibilityTime={2500} />
       </NavigationContainer>
     </View>
   );

@@ -12,6 +12,7 @@ import { IconButton } from '../../components/atoms/IconButton/IconButton';
 import { useWishlist } from '../../context/WishlistContext';
 import { colors } from '../../components/constants/colors';
 import Chip from '../../components/atoms/chip/Chip';
+import YoutubeIframe from 'react-native-youtube-iframe';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
@@ -29,6 +30,7 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   const fetchMovieVideos = async () => {
     setIsLoading(true);
     const data = await getMovieVideos.execute(itemId);
+    console.log(data)
     setVideos(data);
     setIsLoading(false);
   };
@@ -43,6 +45,7 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchMovieVideos();
+    console.log('id', movie.id)
   }, [itemId]);
 
   if (isLoading) {
@@ -55,7 +58,16 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <ScrollView style={DetailsScreenStyles.container}>
-      <MovieBanner movie={movie} width={screenW} type />
+      {videos.length > 0 ?
+        <View style={DetailsScreenStyles.videoContainer}>
+          <YoutubeIframe
+            height={225}
+            play={true}
+            videoId={videos[0].key}
+          />
+        </View> : <MovieBanner movie={movie} width={screenW} posterImg />
+      }
+
       <View style={DetailsScreenStyles.headerContainer}>
         <CustomText variant="title">{movie.originalTitle}</CustomText>
         <IconButton
@@ -74,7 +86,7 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
       <CustomText style={DetailsScreenStyles.overview}>
         {movie.overview}
       </CustomText>
-      
+
       <IconButton
         icon="arrow-back"
         onPress={() => navigation.goBack()}
