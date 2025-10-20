@@ -22,7 +22,9 @@ const MovieItem = ({ item, isVerticalMode = false }: MovieItemProps) => {
         customStyle={MovieItemStyles.verticalPoster}
         posterImg
       />
-      <CustomText numberOfLines={1}>{item.originalTitle}</CustomText>
+      <CustomText numberOfLines={2} style={{ flexShrink: 1 }}>
+        {item.originalTitle}
+      </CustomText>
     </TouchableOpacity>
   ) : (
     <TouchableOpacity

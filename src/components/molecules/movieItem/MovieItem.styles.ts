@@ -14,7 +14,7 @@ export const MovieItemStyles = StyleSheet.create({
   verticalCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexShrink: 1,
+    flex: 1,
     marginBottom: 15,
   },
   verticalPoster: {

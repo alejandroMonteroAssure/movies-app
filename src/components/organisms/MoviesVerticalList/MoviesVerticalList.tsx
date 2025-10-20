@@ -34,7 +34,9 @@ const MoviesVerticalList = ({
           keyExtractor={item => item.id.toString()}
           renderItem={({ item }) => (
             <View style={MoviesVerticalListStyles.itemContainer}>
-              <MovieItem item={item} isVerticalMode />
+              <View style={MoviesVerticalListStyles.movieItemWrapper}>
+                <MovieItem item={item} isVerticalMode />
+              </View>
               {onRemoveMovie && (
                 <IconButton
                   icon="trash"
