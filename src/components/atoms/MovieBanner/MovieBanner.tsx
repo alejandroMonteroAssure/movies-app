@@ -15,9 +15,13 @@ const MovieBanner = ({ movie, width, height, customStyle, posterImg }: MovieProp
     const [loading, setLoading] = useState(true);
     const imageType = (posterImg === undefined ? movie.backdropPath : movie.posterPath);
     const imageWidth = width;
-    const imageHeight = width*1.5;
+    const imageHeight = width * 1.5;
     return (
-        <>
+        <View style={{
+            width: imageWidth,
+            height: imageHeight,
+            position: 'relative',
+        }}>
             {loading && (
                 <View
                     style={{
@@ -41,7 +45,7 @@ const MovieBanner = ({ movie, width, height, customStyle, posterImg }: MovieProp
                 onLoadStart={() => setLoading(true)}
                 onLoadEnd={() => setLoading(false)}
             />
-        </>
+        </View>
     )
 }
 
