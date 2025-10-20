@@ -22,4 +22,8 @@ export const MovieItemStyles = StyleSheet.create({
     borderRadius: 10,
     marginRight: 10,
   },
+  title: { 
+    marginLeft: 5, 
+    flexShrink: 1 
+  },
 });
