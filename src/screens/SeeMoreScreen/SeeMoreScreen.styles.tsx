@@ -22,7 +22,7 @@ export const seeMoreScreenStyles = StyleSheet.create({
     zIndex: 2,
   },
   bottomGradientContainer: {
-    marginTop: -60,
+    marginTop: -40,
     height: 60,
     paddingVertical: 10,
     alignSelf: 'stretch',
