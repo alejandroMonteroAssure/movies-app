@@ -18,6 +18,10 @@ export const styles = StyleSheet.create({
   tertiary: {
     backgroundColor: 'transparent',
   },
+  fourth: {
+    backgroundColor: 'transparent',
+    paddingVertical: 0,
+  },
   disabled: {
     opacity: 0.5,
   },
@@ -33,6 +37,11 @@ export const styles = StyleSheet.create({
   },
   tertiaryText: {
     color: colors.buttonPrimary,
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  fourthText: {
+    color: colors.textPrimary,
     fontSize: 14,
     fontWeight: '500',
   },

@@ -1,6 +1,7 @@
-import { Image, ImageStyle, StyleProp } from "react-native";
+import { ActivityIndicator, Image, ImageStyle, StyleProp, StyleSheet, View } from "react-native";
 import type { Movie } from "../../../services/domain/Movie";
 import { TMDB_IMAGE_BASE_URL } from "@env";
+import { useState } from "react";
 
 type MovieProps = {
     movie: Movie;
@@ -10,17 +11,37 @@ type MovieProps = {
     posterImg?: boolean;
 }
 
-const MovieBanner = ({ movie, width, height, customStyle, posterImg  }: MovieProps) => {
+const MovieBanner = ({ movie, width, height, customStyle, posterImg }: MovieProps) => {
+    const [loading, setLoading] = useState(true);
     const imageType = (posterImg === undefined ? movie.backdropPath : movie.posterPath);
+    const imageWidth = width;
+    const imageHeight = width*1.5;
     return (
-        <Image
-            source={{ uri: `${TMDB_IMAGE_BASE_URL}/original${imageType}` }}
-            style={[{
-                width,
-                height: height || width,
-                resizeMode: "cover",
-            }, customStyle]}
-        />
+        <>
+            {loading && (
+                <View
+                    style={{
+                        position: 'absolute',
+                        width: imageWidth,
+                        height: imageHeight,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <ActivityIndicator size="small" color="#999" />
+                </View>
+            )}
+            <Image
+                source={{ uri: `${TMDB_IMAGE_BASE_URL}/original${imageType}` }}
+                style={[{
+                    width,
+                    height: height || width,
+                    resizeMode: "cover",
+                }, customStyle]}
+                onLoadStart={() => setLoading(true)}
+                onLoadEnd={() => setLoading(false)}
+            />
+        </>
     )
 }
 
