@@ -1,0 +1,77 @@
+import { StyleSheet, Dimensions } from 'react-native';
+const { width } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
+
+export const seeMoreScreenStyles = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: '#000' },
+  hero: {
+    width,
+    paddingTop: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: height * 0.6,
+  },
+  topGradientContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 105,
+    zIndex: 2,
+  },
+  bottomGradientContainer: {
+    marginTop: -60,
+    height: 60,
+    paddingVertical: 10,
+    alignSelf: 'stretch',
+  },
+  loadingContainer: {
+    paddingVertical: 24,
+  },
+  gridContentContainer: {
+    paddingHorizontal: 16,
+    paddingTop: 24,
+    paddingBottom: 24,
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingTop: 8,
+  },
+  studioTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  sortChip: {
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+  },
+  sortChipText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+});
+
+export const topGradientColors = [
+  'rgba(0,0,0,0.6)',
+  'rgba(0,0,0,0.4)',
+  'rgba(0,0,0,0)',
+];
+export const bottomGradientColors = [
+  'rgba(0,0,0,0)',
+  'rgba(0,0,0,0.5)',
+  'rgba(0,0,0,0.9)',
+  'rgba(0,0,0,1)',
+];

@@ -11,6 +11,7 @@ import DetailsScreen from '../screens/DetailsScreen';
 import { SearchScreen } from '../screens/SearchScreen/SearchScreen';
 import BottomNavigation from '../components/organisms/BottomNavigation/BottomNavigation';
 import { RootStackParamList } from './types';
+import SeeMoreScreen from '../screens/SeeMoreScreen/SeeMoreScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -48,6 +49,7 @@ const AppNavigator: React.FC = () => {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Search" component={SearchScreen} />
             <Stack.Screen name="Details" component={DetailsScreen} />
+            <Stack.Screen name="SeeMore" component={SeeMoreScreen} />
           </Stack.Navigator>
         </View>
         <BottomNavigation activeTab={activeTab} onTabPress={setActiveTab} />
