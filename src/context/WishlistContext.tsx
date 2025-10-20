@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from 'react';
 import { Movie } from '../services/domain/Movie';
 import { wishlistStorage } from '../services/infrastructure/WishlistStorage';
 import Toast from 'react-native-toast-message';
@@ -11,7 +17,9 @@ type WishlistContextType = {
   clearWishlist: () => Promise<void>;
 };
 
-const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
+const WishlistContext = createContext<WishlistContextType | undefined>(
+  undefined,
+);
 
 export const WishlistProvider = ({ children }: { children: ReactNode }) => {
   const [wishlist, setWishlist] = useState<Movie[]>([]);
@@ -38,19 +46,26 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
         type: 'success',
         text1: 'Movie added!',
         text2: 'The movie has been saved successfully.',
-      })
+      });
     } else {
       Toast.show({
         type: 'error',
         text1: 'Movie already added',
         text2: 'The movie has already been added.',
-      })
+      });
     }
   };
 
   const removeFromWishlist = async (id: number) => {
     const updated = wishlist.filter(m => m.id !== id);
+    setWishlist(updated);
     await saveWishlist(updated);
+
+    Toast.show({
+      type: 'info',
+      text1: 'Movie removed',
+      text2: 'The movie has been removed from your wishlist.',
+    });
   };
 
   const clearWishlist = async () => {
@@ -61,7 +76,13 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <WishlistContext.Provider
-      value={{ wishlist, addToWishlist, removeFromWishlist, clearWishlist, isInWishlist }}
+      value={{
+        wishlist,
+        addToWishlist,
+        removeFromWishlist,
+        clearWishlist,
+        isInWishlist,
+      }}
     >
       {children}
     </WishlistContext.Provider>
@@ -70,6 +91,7 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 
 export const useWishlist = () => {
   const context = useContext(WishlistContext);
-  if (!context) throw new Error('useWishlist must be used within a WishlistProvider');
+  if (!context)
+    throw new Error('useWishlist must be used within a WishlistProvider');
   return context;
 };

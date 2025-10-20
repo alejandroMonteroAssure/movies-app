@@ -6,5 +6,5 @@ export type RootStackParamList = {
   Details: { itemId: number, movie: Movie };
   Wishlist: undefined;
   Profile: undefined;
-  SeeMore: { studio: string};
+  SeeMore: { studio: string };
 };
