@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, ImageBackground } from 'react-native';
-import { CustomText } from '../atoms/CustomText/CustomText';
-import { Button } from '../atoms/Button/Button';
+import { CustomText } from '../../atoms/CustomText/CustomText';
+import { Button } from '../../atoms/Button/Button';
 import { styles } from './styles';
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../../../context/ThemeContext';
 
 interface BlackFridayCardProps {
   onCheckDetails: () => void;
@@ -17,7 +17,7 @@ export const BlackFridayCard = ({ onCheckDetails }: BlackFridayCardProps) => {
   return (
     <View style={[styles.container, { backgroundColor: cardColor }]}>
       <ImageBackground
-        source={require('../../../assets/images/blackfriday.jpg')}
+        source={require('../../../../assets/images/blackfriday.jpg')}
         style={styles.imageBackground}
         imageStyle={styles.image}
       ></ImageBackground>

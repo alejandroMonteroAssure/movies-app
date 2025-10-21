@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../constants/colors';
+import { colors } from '../../constants/colors';
 
 const PILL_PADDING = 1;
 const CHIP_H = 5;
