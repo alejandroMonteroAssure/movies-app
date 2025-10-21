@@ -16,7 +16,6 @@ import YoutubeIframe from 'react-native-youtube-iframe';
 import { useTheme } from '../../context/ThemeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import { bottomGradientColors, bottomGradientColorsLight } from '../../components/MoviesCarrousel/MoviesCarrousel.styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
