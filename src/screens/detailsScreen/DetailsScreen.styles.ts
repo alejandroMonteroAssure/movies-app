@@ -11,7 +11,7 @@ export const DetailsScreenStyles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   bgBase: {
-    backgroundColor: colors.backgroundLight,
+    backgroundColor: colors.white,
   },
   headerContainer: {
     marginTop: 25,
