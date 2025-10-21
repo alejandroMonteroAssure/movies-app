@@ -25,6 +25,9 @@ export const styles = StyleSheet.create({
   disabled: {
     opacity: 0.5,
   },
+  red: {
+    backgroundColor: colors.error,
+  },
   primaryText: {
     color: colors.textDark,
     fontSize: 16,
