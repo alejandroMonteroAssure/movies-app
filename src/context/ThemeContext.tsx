@@ -10,7 +10,7 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType>({ theme: 'dark', toggleTheme: () => { } });
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AppThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const colorScheme = useColorScheme();
     const [theme, setTheme] = useState<Theme>(colorScheme === 'dark' ? 'dark' : 'light');
     const toggleTheme = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));

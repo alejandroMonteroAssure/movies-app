@@ -1,5 +1,6 @@
 import { StyleProp, Text, TextStyle } from 'react-native';
 import { styles } from './CustomTextStyles';
+import { useTheme } from '../../../context/ThemeContext';
 
 interface CustomTextrops {
   children: string | React.ReactNode;
@@ -14,6 +15,9 @@ export const CustomText = ({
   style,
   numberOfLines,
 }: CustomTextrops) => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   const getVariantStyle = () => {
     switch (variant) {
       case 'title':
@@ -28,7 +32,7 @@ export const CustomText = ({
 
   return (
     <Text
-      style={[styles.base, getVariantStyle(), style]}
+      style={[isDark ? styles.base : styles.baseDark, getVariantStyle(), style]}
       numberOfLines={numberOfLines}
     >
       {children}
