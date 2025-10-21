@@ -49,6 +49,7 @@ const MovieItem = ({ item, isVerticalMode = false }: MovieItemProps) => {
         movie={item}
         width={120}
         customStyle={MovieItemStyles.poster}
+        posterImg
       />
       <CustomText numberOfLines={1}>{item.originalTitle}</CustomText>
     </TouchableOpacity>
