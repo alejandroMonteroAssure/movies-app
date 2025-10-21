@@ -5,7 +5,7 @@ import { CustomText } from '../CustomText/CustomText';
 interface ButtonProps {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'fourth';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'fourth' | 'red';
   disabled?: boolean;
 }
 
@@ -25,6 +25,8 @@ export const Button = ({
         return styles.tertiary;
       case 'fourth':
         return styles.fourth;
+      case 'red':
+        return styles.red;
       default:
         return styles.primary;
     }
@@ -40,6 +42,8 @@ export const Button = ({
         return styles.tertiaryText;
       case 'fourth':
         return styles.fourthText;
+      case 'red':
+        return styles.primaryText;
       default:
         return styles.primaryText;
     }
