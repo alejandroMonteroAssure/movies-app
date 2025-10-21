@@ -10,7 +10,4 @@ export const MoviesVerticalListStyles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  movieItemWrapper: {
-    flex: 1,
-  },
 });
