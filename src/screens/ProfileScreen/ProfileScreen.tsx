@@ -14,7 +14,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import { User } from '../../services/domain/User';
 import { Button } from '../../components/atoms/Button/Button';
 import { CustomText } from '../../components/atoms/CustomText/CustomText';
-import { styles } from './ProfileScreen.style';
+import { styles } from './ProfileScreen.styles';
 import MovieItem from '../../components/molecules/movieItem/MovieItem';
 import { useTheme } from '../../context/ThemeContext';
 

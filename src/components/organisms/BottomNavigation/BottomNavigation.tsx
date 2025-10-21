@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { IconButton } from '../../atoms/IconButton/IconButton';
-import { styles } from './BottomNavigation.style';
+import { styles } from './BottomNavigation.styles';
 
 interface BottomNavigationProps {
   activeTab: string;

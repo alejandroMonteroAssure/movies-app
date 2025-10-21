@@ -1,5 +1,5 @@
 import { TouchableOpacity } from 'react-native';
-import { styles } from './ButtonStyles';
+import { styles } from './Button.styles';
 import { CustomText } from '../CustomText/CustomText';
 
 interface ButtonProps {

@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
-import { Genre } from '../../services/domain/Genre';
+import { Genre } from '../../../services/domain/Genre';
 import { ScrollView } from 'react-native-gesture-handler';
-import { CustomText } from '../atoms/CustomText/CustomText';
+import { CustomText } from '../../atoms/CustomText/CustomText';
 import { navbarStyles } from './Navbar.styles';
 
 type NavbarProps = {
