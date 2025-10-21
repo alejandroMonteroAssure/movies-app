@@ -13,6 +13,10 @@ import { useWishlist } from '../../context/WishlistContext';
 import { colors } from '../../components/constants/colors';
 import Chip from '../../components/atoms/chip/Chip';
 import YoutubeIframe from 'react-native-youtube-iframe';
+import { useTheme } from '../../context/ThemeContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import LinearGradient from 'react-native-linear-gradient';
+import { bottomGradientColors, bottomGradientColorsLight } from '../../components/MoviesCarrousel/MoviesCarrousel.styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
@@ -26,11 +30,12 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const fetchMovieVideos = async () => {
     setIsLoading(true);
     const data = await getMovieVideos.execute(itemId);
-    console.log(data)
     setVideos(data);
     setIsLoading(false);
   };
@@ -45,55 +50,68 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchMovieVideos();
-    console.log('id', movie.id)
   }, [itemId]);
 
   if (isLoading) {
     return (
       <View style={DetailsScreenStyles.center}>
-        <ActivityIndicator size="large" color="#E50914" />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
 
   return (
-    <ScrollView style={DetailsScreenStyles.container}>
-      {videos.length > 0 ?
-        <View style={DetailsScreenStyles.videoContainer}>
-          <YoutubeIframe
-            height={225}
-            play={true}
-            videoId={videos[0].key}
+    <SafeAreaView style={[DetailsScreenStyles.container, isDark ? DetailsScreenStyles.bgDark : DetailsScreenStyles.bgBase,]}>
+      <ScrollView>
+        {videos.length > 0 ?
+          <View style={DetailsScreenStyles.videoContainer}>
+            <YoutubeIframe
+              height={225}
+              play={true}
+              videoId={videos[0].key}
+            />
+          </View> :
+          <View style={DetailsScreenStyles.bannerContainer}>
+            <MovieBanner movie={movie} width={screenW} height={screenW} posterImg />
+
+            <LinearGradient
+              colors={['rgba(0,0,0,0.6)', 'transparent', 'rgba(0,0,0,0.8)']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={DetailsScreenStyles.bannerGradient}
+            />
+          </View>
+
+        }
+
+        <View style={DetailsScreenStyles.headerContainer}>
+          <CustomText variant="title" numberOfLines={2} style={DetailsScreenStyles.title}>{movie.originalTitle}</CustomText>
+          <IconButton
+            icon={isInWishlist(movie.id) ? 'heart' : 'heart-outline'}
+            onPress={handleWishlistToggle}
+            color={isInWishlist(movie.id) ? colors.primary : colors.textSecondary}
           />
-        </View> : <MovieBanner movie={movie} width={screenW} posterImg />
-      }
+        </View>
 
-      <View style={DetailsScreenStyles.headerContainer}>
-        <CustomText variant="title">{movie.originalTitle}</CustomText>
+        <View style={DetailsScreenStyles.metaRow}>
+          <Chip>{new Date(movie!.releaseDate).getFullYear()}</Chip>
+          <Chip>★ {movie!.voteAverage.toFixed(1)}</Chip>
+          <Chip>{movie!.originalLanguage.toUpperCase()}</Chip>
+        </View>
+
+        <CustomText style={DetailsScreenStyles.overview}>
+          {movie.overview}
+        </CustomText>
+
         <IconButton
-          icon={isInWishlist(movie.id) ? 'heart' : 'heart-outline'}
-          onPress={handleWishlistToggle}
-          color={isInWishlist(movie.id) ? colors.primary : colors.textSecondary}
+          icon="arrow-back"
+          onPress={() => navigation.goBack()}
+          style={DetailsScreenStyles.backBtn}
+          color={colors.white}
         />
-      </View>
+      </ScrollView>
+    </SafeAreaView>
 
-      <View style={DetailsScreenStyles.metaRow}>
-        <Chip>{new Date(movie!.releaseDate).getFullYear()}</Chip>
-        <Chip>★ {movie!.voteAverage.toFixed(1)}</Chip>
-        <Chip>{movie!.originalLanguage.toUpperCase()}</Chip>
-      </View>
-
-      <CustomText style={DetailsScreenStyles.overview}>
-        {movie.overview}
-      </CustomText>
-
-      <IconButton
-        icon="arrow-back"
-        onPress={() => navigation.goBack()}
-        style={DetailsScreenStyles.backBtn}
-        color={colors.white}
-      />
-    </ScrollView>
   );
 };
 

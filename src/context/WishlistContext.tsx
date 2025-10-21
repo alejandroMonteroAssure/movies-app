@@ -57,7 +57,7 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeFromWishlist = async (id: number) => {
-    const updated = wishlist.filter(m => m.id !== id);
+    const updated = wishlist.filter(movie => movie.id !== id);
     setWishlist(updated);
     await saveWishlist(updated);
 
@@ -72,7 +72,7 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
     await saveWishlist([]);
   };
 
-  const isInWishlist = (id: number) => wishlist.some(m => m.id === id);
+  const isInWishlist = (id: number) => wishlist.some(movie => movie.id === id);
 
   return (
     <WishlistContext.Provider

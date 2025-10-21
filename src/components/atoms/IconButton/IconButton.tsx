@@ -26,7 +26,7 @@ export const IconButton = ({
   const { theme } = useTheme();
     
   const isDark = theme === 'dark';
-  color = isDark ? '#bbb' : '#555';
+  // color = isDark ? '#bbb' : '#555';
 
   return (
     <TouchableOpacity
