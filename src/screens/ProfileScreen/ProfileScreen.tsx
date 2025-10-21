@@ -16,9 +16,16 @@ import { Button } from '../../components/atoms/Button/Button';
 import { CustomText } from '../../components/atoms/CustomText/CustomText';
 import { styles } from './ProfileScreen.style';
 import MovieItem from '../../components/molecules/movieItem/MovieItem';
+import { useTheme } from '../../context/ThemeContext';
 
 const ProfileScreen: React.FC = () => {
   const { wishlist, clearWishlist } = useWishlist();
+  const { theme, toggleTheme } = useTheme();
+
+  const isDark = theme === 'dark';
+  const backgroundColor = isDark ? '#000' : '#fff';
+  const textColor = isDark ? '#fff' : '#000';
+  const secondaryText = isDark ? '#aaa' : '#555';
 
   const user: User = {
     name: 'William Barra',
@@ -27,39 +34,85 @@ const ProfileScreen: React.FC = () => {
   };
 
   return (
-    <GestureHandlerRootView style={styles.root}>
-      <SafeAreaView style={styles.safeArea}>
-        <ScrollView contentContainerStyle={styles.scroll}>
+    <GestureHandlerRootView style={[styles.root, { backgroundColor }]}>
+      <SafeAreaView style={[styles.safeArea, { backgroundColor }]}>
+        <ScrollView
+          contentContainerStyle={styles.scroll}
+          style={{ backgroundColor }}
+        >
           <View style={styles.header}>
             <Image source={{ uri: user.avatar }} style={styles.avatar} />
-            <CustomText variant="subtitle" style={styles.name}>
+            <CustomText
+              variant="subtitle"
+              style={[styles.name, { color: textColor }]}
+            >
               {user.name}
             </CustomText>
-            <CustomText variant="body" style={styles.email}>
+            <CustomText
+              variant="body"
+              style={[styles.email, { color: secondaryText }]}
+            >
               {user.email}
             </CustomText>
           </View>
+
           <View style={styles.statsContainer}>
             <View style={styles.statBox}>
-              <Text style={styles.statNumber}>{wishlist.length}</Text>
-              <Text style={styles.statLabel}>In Wishlist</Text>
+              <Text
+                style={[
+                  styles.statNumber,
+                  { color: isDark ? '#f0c14b' : '#333' },
+                ]}
+              >
+                {wishlist.length}
+              </Text>
+              <Text style={[styles.statLabel, { color: secondaryText }]}>
+                In Wishlist
+              </Text>
             </View>
             <View style={styles.statBox}>
-              <Text style={styles.statNumber}>24</Text>
-              <Text style={styles.statLabel}>Watched</Text>
+              <Text
+                style={[
+                  styles.statNumber,
+                  { color: isDark ? '#f0c14b' : '#333' },
+                ]}
+              >
+                24
+              </Text>
+              <Text style={[styles.statLabel, { color: secondaryText }]}>
+                Watched
+              </Text>
             </View>
             <View style={styles.statBox}>
-              <Text style={styles.statNumber}>5</Text>
-              <Text style={styles.statLabel}>Reviews</Text>
+              <Text
+                style={[
+                  styles.statNumber,
+                  { color: isDark ? '#f0c14b' : '#333' },
+                ]}
+              >
+                5
+              </Text>
+              <Text style={[styles.statLabel, { color: secondaryText }]}>
+                Reviews
+              </Text>
             </View>
           </View>
-          <CustomText variant="subtitle" style={styles.sectionTitle}>
+
+          <CustomText
+            variant="subtitle"
+            style={[styles.sectionTitle, { color: textColor }]}
+          >
             Your Wishlist
           </CustomText>
+
           {wishlist.length === 0 ? (
             <CustomText
               variant="body"
-              style={{ textAlign: 'center', marginTop: 20 }}
+              style={{
+                textAlign: 'center',
+                marginTop: 20,
+                color: secondaryText,
+              }}
             >
               is empty.
             </CustomText>
@@ -80,13 +133,16 @@ const ProfileScreen: React.FC = () => {
               onPress={clearWishlist}
               variant="primary"
             />
-
-            <TouchableOpacity
-              style={[styles.button, styles.logoutButton]}
+            <Button
+              title="Log Out"
               onPress={() => Alert.alert('Logged out')}
-            >
-              <Text style={styles.buttonText}>Log Out</Text>
-            </TouchableOpacity>
+              variant="red"
+            />
+            <Button
+              title={`Toggle ${isDark ? 'Light' : 'Dark'} Mode`}
+              onPress={toggleTheme}
+              variant="secondary"
+            />
           </View>
         </ScrollView>
       </SafeAreaView>
