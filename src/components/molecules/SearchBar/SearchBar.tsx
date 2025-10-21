@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Input } from '../../atoms/Input/Input';
 import { IconButton } from '../../atoms/IconButton/IconButton';
-import { styles } from './SearchBar.style';
+import { styles } from './SearchBar.styles';
 
 interface SearchBarProps {
   query: string;

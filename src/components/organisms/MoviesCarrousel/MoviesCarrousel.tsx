@@ -1,5 +1,5 @@
 import { Dimensions, View } from 'react-native';
-import { Movie } from '../../services/domain/Movie';
+import { Movie } from '../../../services/domain/Movie';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import React from 'react';
@@ -7,23 +7,23 @@ import Carousel, {
   ICarouselInstance,
   Pagination,
 } from 'react-native-reanimated-carousel';
-import MovieBanner from '../atoms/MovieBanner/MovieBanner';
+import MovieBanner from '../../atoms/MovieBanner/MovieBanner';
 import {
   bottomGradientColors,
   bottomGradientColorsLight,
   moviesCarrouselStyles,
   topGradientColors,
 } from './MoviesCarrousel.styles';
-import { CustomText } from '../atoms/CustomText/CustomText';
-import { Button } from '../atoms/Button/Button';
+import { CustomText } from '../../atoms/CustomText/CustomText';
+import { Button } from '../../atoms/Button/Button';
 import {
   useSharedValue,
   configureReanimatedLogger,
   ReanimatedLogLevel,
 } from 'react-native-reanimated';
-import { useWishlist } from '../../context/WishlistContext';
+import { useWishlist } from '../../../context/WishlistContext';
 import { useNavigation } from '@react-navigation/native';
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../../../context/ThemeContext';
 
 type MoviesCarrouselProps = {
   popularMovies: Movie[];
