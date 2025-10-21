@@ -10,6 +10,7 @@ import Carousel, {
 import MovieBanner from '../atoms/MovieBanner/MovieBanner';
 import {
   bottomGradientColors,
+  bottomGradientColorsLight,
   moviesCarrouselStyles,
   topGradientColors,
 } from './MoviesCarrousel.styles';
@@ -22,6 +23,7 @@ import {
 } from 'react-native-reanimated';
 import { useWishlist } from '../../context/WishlistContext';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from '../../context/ThemeContext';
 
 type MoviesCarrouselProps = {
   popularMovies: Movie[];
@@ -37,6 +39,7 @@ export default function MoviesCarrousel({
   popularMovies,
   onPressDetails,
 }: MoviesCarrouselProps) {
+  const { theme, toggleTheme } = useTheme();
   const insets = useSafeAreaInsets();
   const ref = React.useRef<ICarouselInstance>(null);
   const width = Dimensions.get('window').width;
@@ -85,7 +88,7 @@ export default function MoviesCarrousel({
         }}
       />
       <LinearGradient
-        colors={bottomGradientColors}
+        colors={theme === 'dark'? bottomGradientColors: bottomGradientColorsLight}
         locations={[0, 0.14, 0.52, 1]}
         style={moviesCarrouselStyles.bottomGradientContainer}
       >
@@ -118,7 +121,7 @@ export default function MoviesCarrousel({
       <Pagination.Basic
         progress={progress}
         data={popularMovies}
-        dotStyle={moviesCarrouselStyles.paginationDot}
+        dotStyle={theme === 'dark' ? moviesCarrouselStyles.paginationDot : moviesCarrouselStyles.paginationDotLigthMode}
         activeDotStyle={moviesCarrouselStyles.activeDot}
         containerStyle={moviesCarrouselStyles.paginationContainer}
         onPress={handleSelectPage}

@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import { colors } from '../../constants/colors';
 
 export const styles = StyleSheet.create({
+  baseDark: {
+    color: colors.textDark
+  },
   base: {
     color: colors.textPrimary,
   },

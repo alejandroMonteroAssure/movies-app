@@ -71,6 +71,12 @@ export const moviesCarrouselStyles = StyleSheet.create({
     width: 10,
     height: 10,
   },
+  paginationDotLigthMode: {
+    backgroundColor: 'rgba(72, 60, 60, 0.3)',
+    borderRadius: 50,
+    width: 10,
+    height: 10,
+  },
   activeDot: {
     backgroundColor: colors.buttonPrimary,
     borderRadius: 50,
@@ -83,9 +89,17 @@ export const topGradientColors = [
   'rgba(0,0,0,0.4)',
   'rgba(0,0,0,0)',
 ];
+
 export const bottomGradientColors = [
   'rgba(0,0,0,0)',
   'rgba(0,0,0,0.5)',
   'rgba(0,0,0,0.9)',
   'rgba(0,0,0,1)',
+];
+
+export const bottomGradientColorsLight = [
+  'rgba(255,255,255,0)',
+  'rgba(255,255,255,0.2)',
+  'rgba(255,255,255,0.9)',
+  'rgba(255,255,255,1)',
 ];

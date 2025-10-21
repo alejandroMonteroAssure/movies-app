@@ -15,6 +15,8 @@ import { BlackFridayCard } from '../components/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { GetFilteredMovies } from '../services/application/GetFileredMovies';
 import DetailsModal from '../components/DetailsModal/DetailsModal';
+import { useTheme } from '../context/ThemeContext';
+
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -29,6 +31,8 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [activeGenreId, setActiveGenreId] = useState<number>(0);
   const [selectedMovie, setSelectedMovie] = useState<Movie>();
   const [detailsOpen, setDetailsOpen] = useState(false);
+    const { theme, toggleTheme } = useTheme();
+
 
   const isFiltered = activeGenreId !== 0;
 
@@ -66,11 +70,14 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     throw new Error('Function not implemented.');
   }
 
+  const isDark = theme === 'dark';
+  const backgroundColor = (isDark ? '#000': '#fff');
+
   return (
-    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#000' }}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: backgroundColor }}>
       <SafeAreaProvider>
         <ScrollView
-          style={{ flex: 1, backgroundColor: '#000' }}
+          style={{ flex: 1, backgroundColor: backgroundColor }}
           contentContainerStyle={{ paddingBottom: 24 }}
           nestedScrollEnabled
         >
