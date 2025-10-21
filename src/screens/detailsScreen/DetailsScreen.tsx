@@ -13,6 +13,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import { colors } from '../../components/constants/colors';
 import Chip from '../../components/atoms/chip/Chip';
 import YoutubeIframe from 'react-native-youtube-iframe';
+import { useTheme } from '../../context/ThemeContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
 
@@ -26,6 +27,8 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const fetchMovieVideos = async () => {
     setIsLoading(true);
@@ -51,13 +54,13 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   if (isLoading) {
     return (
       <View style={DetailsScreenStyles.center}>
-        <ActivityIndicator size="large" color="#E50914" />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
 
   return (
-    <ScrollView style={DetailsScreenStyles.container}>
+    <ScrollView style={[isDark ? DetailsScreenStyles.bgDark : DetailsScreenStyles.bgBase, ]}>
       {videos.length > 0 ?
         <View style={DetailsScreenStyles.videoContainer}>
           <YoutubeIframe
@@ -65,7 +68,7 @@ const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
             play={true}
             videoId={videos[0].key}
           />
-        </View> : <MovieBanner movie={movie} width={screenW} posterImg />
+        </View> : <MovieBanner movie={movie} width={screenW} height={screenW} posterImg />
       }
 
       <View style={DetailsScreenStyles.headerContainer}>

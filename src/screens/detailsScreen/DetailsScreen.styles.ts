@@ -4,9 +4,14 @@ import { colors } from '../../components/constants/colors';
 const screenH = Dimensions.get('window').height;
 export const DetailsScreenStyles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
     minHeight: screenH,
     position: 'relative',
+  },
+  bgDark: {
+    backgroundColor: colors.background,
+  },
+  bgBase: {
+    backgroundColor: colors.backgroundLight,
   },
   headerContainer: {
     marginTop: 25,
