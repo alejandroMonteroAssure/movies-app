@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   FlatList,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
@@ -116,12 +117,18 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
           contentContainerStyle={seeMoreScreenStyles.gridContentContainer}
           columnWrapperStyle={seeMoreScreenStyles.columnWrapper}
           renderItem={({ item }) => (
+            <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Details', { itemId: item.id, movie: item })
+                  }
+                >
             <MovieBanner
               movie={item}
               width={CELL_W}
               height={CELL_W * 1.5}
               posterImg
             />
+            </TouchableOpacity>
           )}
           removeClippedSubviews={false}
           windowSize={10}
