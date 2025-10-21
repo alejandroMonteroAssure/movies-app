@@ -31,7 +31,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const [activeGenreId, setActiveGenreId] = useState<number>(0);
   const [selectedMovie, setSelectedMovie] = useState<Movie>();
   const [detailsOpen, setDetailsOpen] = useState(false);
-    const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
 
   const isFiltered = activeGenreId !== 0;
