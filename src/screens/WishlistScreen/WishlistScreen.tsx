@@ -9,15 +9,20 @@ import BottomNavigation from '../../components/organisms/BottomNavigation/Bottom
 import { useWishlist } from '../../context/WishlistContext';
 import { RootStackParamList } from '../../navigation/types';
 import { WishlistScreenStyle } from './WishlistScreen.style';
+import { useTheme } from '../../context/ThemeContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Wishlist'>;
 
 const WishlistScreen: React.FC<Props> = ({ route, navigation }) => {
   const { wishlist, removeFromWishlist } = useWishlist();
+  const { theme } = useTheme();
+  
+  const isDark = theme === 'dark';
+  const backgroundColor = isDark ? '#000' : '#fff';
 
   return (
-    <GestureHandlerRootView style={WishlistScreenStyle.root}>
-      <SafeAreaView style={WishlistScreenStyle.safeArea}>
+    <GestureHandlerRootView style={[WishlistScreenStyle.root, { backgroundColor }]}>
+      <SafeAreaView style={[WishlistScreenStyle.safeArea, { backgroundColor }]}>
         <View style={WishlistScreenStyle.content}>
           <MoviesVerticalList
             listTitle="My List"
