@@ -6,7 +6,6 @@ import {
   ScrollView,
   ActivityIndicator,
   FlatList,
-  Pressable,
   TouchableOpacity,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -20,10 +19,10 @@ import {
 } from './SeeMoreScreen.styles';
 import LinearGradient from 'react-native-linear-gradient';
 import { useMoviesByStudio } from '../../hooks/useMoviesByStudio';
-import MovieItem from '../../components/molecules/movieItem/MovieItem';
 import MovieBanner from '../../components/atoms/MovieBanner/MovieBanner';
-import { Text } from 'react-native-gesture-handler';
 import { CustomText } from '../../components/atoms/CustomText/CustomText';
+import { colors } from '../../components/constants/colors';
+import { IconButton } from '../../components/atoms/IconButton/IconButton';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SeeMore'>;
 
@@ -54,91 +53,99 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
   }, [logoUri]);
 
   return (
-    <ScrollView style={seeMoreScreenStyles.screen}>
-      <View>
-        <View
-          style={[
-            seeMoreScreenStyles.hero,
-            { backgroundColor: studioInfo.color },
-          ]}
-        >
-          <LinearGradient
-            colors={topGradientColors}
-            locations={[0, 0.5, 1]}
-            style={seeMoreScreenStyles.topGradientContainer}
-          />
-          <Image
-            source={{
-              uri: `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}`,
-            }}
-            style={[{ width: screenW * 0.6, aspectRatio: ratio ?? 2.5 }]}
-            resizeMode="contain"
-            onLoadStart={() => setLoadingStudioImage(true)}
-            onLoadEnd={() => setLoadingStudioImage(false)}
-          />
-          {
-            loadingStudioImage && (
-              <View
-                style={{
-                  width: screenW * 0.6,
-                  aspectRatio: ratio ?? 2.5,
-                  position: 'absolute',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <ActivityIndicator size="small" color="#999" />
-              </View>
-            )
-          }
-
-        </View>
-        <LinearGradient
-          colors={bottomGradientColors}
-          locations={[0, 0.35, 0.65, 0.8]}
-          style={seeMoreScreenStyles.bottomGradientContainer}
-        />
-      </View>
-      <View style={seeMoreScreenStyles.headerRow}>
-        <CustomText variant="title" style={seeMoreScreenStyles.studioTitle}>
-          {studioInfo.name}
-        </CustomText>
-      </View>
-      {loadingMovies ? (
-        <View style={seeMoreScreenStyles.loadingContainer}>
-          <ActivityIndicator size="small" color="#fff" />
-        </View>
-      ) : (
-        <FlatList
-          data={movies}
-          keyExtractor={movie => String(movie.id)}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={seeMoreScreenStyles.gridContentContainer}
-          columnWrapperStyle={seeMoreScreenStyles.columnWrapper}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('Details', { itemId: item.id, movie: item })
-                  }
-                >
-            <MovieBanner
-              movie={item}
-              width={CELL_W}
-              height={CELL_W * 1.5}
-              posterImg
+    <View style={{ flex: 1, position: 'relative' }}>
+      <IconButton
+        icon="arrow-back"
+        onPress={() => navigation.goBack()}
+        style={seeMoreScreenStyles.backBtn}
+        color={colors.white}
+      />
+      <ScrollView style={seeMoreScreenStyles.screen}>
+        <View>
+          <View
+            style={[
+              seeMoreScreenStyles.hero,
+              { backgroundColor: studioInfo.color },
+            ]}
+          >
+            <LinearGradient
+              colors={topGradientColors}
+              locations={[0, 0.5, 1]}
+              style={seeMoreScreenStyles.topGradientContainer}
             />
-            </TouchableOpacity>
-          )}
-          removeClippedSubviews={false}
-          windowSize={10}
-          initialNumToRender={20}
-          maxToRenderPerBatch={12}
-          updateCellsBatchingPeriod={50}
-          scrollEnabled={false}
-        />
-      )}
-    </ScrollView>
+            <Image
+              source={{
+                uri: `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}`,
+              }}
+              style={[{ width: screenW * 0.6, aspectRatio: ratio ?? 2.5 }]}
+              resizeMode="contain"
+              onLoadStart={() => setLoadingStudioImage(true)}
+              onLoadEnd={() => setLoadingStudioImage(false)}
+            />
+            {
+              loadingStudioImage && (
+                <View
+                  style={{
+                    width: screenW * 0.6,
+                    aspectRatio: ratio ?? 2.5,
+                    position: 'absolute',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <ActivityIndicator size="small" color="#999" />
+                </View>
+              )
+            }
+
+          </View>
+          <LinearGradient
+            colors={bottomGradientColors}
+            locations={[0, 0.35, 0.65, 0.8]}
+            style={seeMoreScreenStyles.bottomGradientContainer}
+          />
+        </View>
+        <View style={seeMoreScreenStyles.headerRow}>
+          <CustomText variant="title" style={seeMoreScreenStyles.studioTitle}>
+            {studioInfo.name}
+          </CustomText>
+        </View>
+        {loadingMovies ? (
+          <View style={seeMoreScreenStyles.loadingContainer}>
+            <ActivityIndicator size="small" color="#fff" />
+          </View>
+        ) : (
+          <FlatList
+            data={movies}
+            keyExtractor={movie => String(movie.id)}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={seeMoreScreenStyles.gridContentContainer}
+            columnWrapperStyle={seeMoreScreenStyles.columnWrapper}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Details', { itemId: item.id, movie: item })
+                }
+              >
+                <MovieBanner
+                  movie={item}
+                  width={CELL_W}
+                  height={CELL_W * 1.5}
+                  posterImg
+                />
+              </TouchableOpacity>
+            )}
+            removeClippedSubviews={false}
+            windowSize={10}
+            initialNumToRender={20}
+            maxToRenderPerBatch={12}
+            updateCellsBatchingPeriod={50}
+            scrollEnabled={false}
+          />
+        )}
+      </ScrollView>
+    </View>
   );
 };
 

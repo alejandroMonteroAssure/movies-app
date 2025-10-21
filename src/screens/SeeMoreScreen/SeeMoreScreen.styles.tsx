@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { colors } from '../../components/constants/colors';
 const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 
@@ -20,6 +21,15 @@ export const seeMoreScreenStyles = StyleSheet.create({
     right: 0,
     height: 105,
     zIndex: 2,
+  },
+  backBtn: {
+    position: 'absolute',
+    padding: 10,
+    top: 50,
+    left: 25,
+    backgroundColor: colors.goBackBg,
+    borderRadius: 9999,
+    zIndex: 10,
   },
   bottomGradientContainer: {
     marginTop: -40,
