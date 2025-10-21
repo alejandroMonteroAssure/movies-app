@@ -14,7 +14,7 @@ import Navbar from '../components/molecules/Navbar/Navbar';
 import { BlackFridayCard } from '../components/molecules/BlackFridayCard/BlackFridayCard';
 import MoviesList from '../components/organisms/moviesList/MoviesList';
 import { GetFilteredMovies } from '../services/application/GetFileredMovies';
-import DetailsModal from '../components/DetailsModal/DetailsModal';
+import DetailsModal from '../components/organisms/DetailsModal/DetailsModal';
 import { useTheme } from '../context/ThemeContext';
 
 
