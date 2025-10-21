@@ -89,6 +89,15 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
     extrapolate: 'clamp',
   })
 
+  const isTooDark = (color: string) => {
+    let hex = color.replace('#', '');
+    const r = parseInt(hex.substring(0,2), 16);
+    const g = parseInt(hex.substring(2,4), 16);
+    const b = parseInt(hex.substring(4,6), 16);
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance < 128;
+  };
+
   return (
     <View style={{ flex: 1, position: 'relative' }}>
       <IconButton
@@ -137,25 +146,34 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
             </View>
           )
         }
+        <Animated.View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 60,
+            opacity: gradientOpacity,
+          }}
+        >
+          <LinearGradient
+            colors={bottomGradientColors}
+            locations={[0, 0.35, 0.65, 0.7]}
+            style={{ flex: 1 }}
+          />
+        </Animated.View>
         <Animated.Text
           style={{
             position: 'absolute',
             bottom: 20,
             fontSize: 22,
-            color: 'white',
+            color: (isTooDark(studioInfo.color) ? 'white': 'black'),
             fontWeight: 'bold',
             opacity: textOpacity,
           }}
         >
           {studioInfo.name}
         </Animated.Text>
-      </Animated.View>
-      <Animated.View style={{ }}>
-        <LinearGradient
-          colors={bottomGradientColors}
-          locations={[0, 0.35, 0.65, 0.7]}
-          style={[seeMoreScreenStyles.bottomGradientContainer]}
-        />
       </Animated.View>
       <Animated.ScrollView style={seeMoreScreenStyles.screen}
         onScroll={
