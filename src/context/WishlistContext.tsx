@@ -39,7 +39,7 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addToWishlist = async (movie: Movie) => {
-    if (!wishlist.some(movie => movie.id === movie.id)) {
+    if (!wishlist.some(m => m.id === movie.id)) {
       const updated = [...wishlist, movie];
       await saveWishlist(updated);
       Toast.show({
