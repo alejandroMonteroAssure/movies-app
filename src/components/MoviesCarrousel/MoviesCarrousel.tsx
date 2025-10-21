@@ -45,7 +45,7 @@ export default function MoviesCarrousel({
   const width = Dimensions.get('window').width;
   const progress = useSharedValue<number>(0);
   const [activeIndex, setActiveIndex] = React.useState(0);
-  const { addToWishlist, isInWishlist } = useWishlist();
+  const { addToWishlist, isInWishlist, removeFromWishlist } = useWishlist();
   const navigation = useNavigation<any>();
 
   const movie = popularMovies[activeIndex];
@@ -55,10 +55,6 @@ export default function MoviesCarrousel({
   const handleSelectPage = (index: number) => {
     setActiveIndex(index);
     ref.current?.scrollTo({ index, animated: true });
-  };
-
-  const handleAddWishlist = () => {
-    addToWishlist(popularMovies[activeIndex]);
   };
 
   const handleNavigation = (tabName: string) => {
@@ -137,7 +133,3 @@ export default function MoviesCarrousel({
     </View>
   );
 }
-function removeFromWishlist(id: number) {
-  throw new Error('Function not implemented.');
-}
-
