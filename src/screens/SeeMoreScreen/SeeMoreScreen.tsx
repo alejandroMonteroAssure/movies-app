@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Dimensions,
@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  Animated
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
@@ -27,18 +28,24 @@ import { IconButton } from '../../components/atoms/IconButton/IconButton';
 type Props = NativeStackScreenProps<RootStackParamList, 'SeeMore'>;
 
 const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { height } = Dimensions.get('window');
   const { studio } = route.params;
   const { studioInfo, loading } = useInfoByStudio(studio);
   const { movies, loading: loadingMovies } = useMoviesByStudio(studio, false);
   const [ratio, setRatio] = useState<number | undefined>(undefined);
   const logoUri = `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}`;
   const [loadingStudioImage, setLoadingStudioImage] = useState(false);
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   const screenW = Dimensions.get('window').width;
 
   const H_PADDING = 16;
   const GUTTER = 12;
   const CELL_W = (screenW - H_PADDING * 2 - GUTTER) / 2;
+
+  const HEADER_MAX_HEIGHT = height * 0.6;
+  const HEADER_MIN_HEIGHT = 105;
+  const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
   useEffect(() => {
     let alive = true;
@@ -52,6 +59,36 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
     };
   }, [logoUri]);
 
+  const headerHeight = scrollY.interpolate({
+    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+    extrapolate: 'clamp'
+  })
+
+  const logoOpacity = scrollY.interpolate({
+    inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+    outputRange: [1, 0.3, 0],
+    extrapolate: 'clamp'
+  })
+
+  const textOpacity = scrollY.interpolate({
+    inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+    outputRange: [0, 0.3, 1],
+    extrapolate: 'clamp'
+  })
+
+  const logoScale = scrollY.interpolate({
+    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    outputRange: [1, 0.7],
+    extrapolate: 'clamp',
+  })
+
+  const gradientOpacity = scrollY.interpolate({
+    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    outputRange: [1, 0],
+    extrapolate: 'clamp',
+  })
+
   return (
     <View style={{ flex: 1, position: 'relative' }}>
       <IconButton
@@ -60,51 +97,73 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
         style={seeMoreScreenStyles.backBtn}
         color={colors.white}
       />
-      <ScrollView style={seeMoreScreenStyles.screen}>
-        <View>
-          <View
-            style={[
-              seeMoreScreenStyles.hero,
-              { backgroundColor: studioInfo.color },
-            ]}
-          >
-            <LinearGradient
-              colors={topGradientColors}
-              locations={[0, 0.5, 1]}
-              style={seeMoreScreenStyles.topGradientContainer}
-            />
-            <Image
-              source={{
-                uri: `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}`,
+      <Animated.View
+        style={[
+          seeMoreScreenStyles.hero,
+          {
+            backgroundColor: studioInfo.color,
+            height: headerHeight,
+            justifyContent: 'center',
+            alignItems: 'center'
+          },
+        ]}
+      >
+        <LinearGradient
+          colors={topGradientColors}
+          locations={[0, 0.5, 1]}
+          style={seeMoreScreenStyles.topGradientContainer}
+        />
+        <Animated.Image
+          source={{
+            uri: `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}`,
+          }}
+          style={[{ width: screenW * 0.6, aspectRatio: ratio ?? 2.5, resizeMode: 'contain', opacity: logoOpacity, transform: [{ scale: logoScale }], }]}
+          resizeMode="contain"
+          onLoadStart={() => setLoadingStudioImage(true)}
+          onLoadEnd={() => setLoadingStudioImage(false)}
+        />
+        {
+          loadingStudioImage && (
+            <View
+              style={{
+                width: screenW * 0.6,
+                aspectRatio: ratio ?? 2.5,
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
-              style={[{ width: screenW * 0.6, aspectRatio: ratio ?? 2.5 }]}
-              resizeMode="contain"
-              onLoadStart={() => setLoadingStudioImage(true)}
-              onLoadEnd={() => setLoadingStudioImage(false)}
-            />
-            {
-              loadingStudioImage && (
-                <View
-                  style={{
-                    width: screenW * 0.6,
-                    aspectRatio: ratio ?? 2.5,
-                    position: 'absolute',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <ActivityIndicator size="small" color="#999" />
-                </View>
-              )
-            }
-
-          </View>
-          <LinearGradient
-            colors={bottomGradientColors}
-            locations={[0, 0.35, 0.65, 0.8]}
-            style={seeMoreScreenStyles.bottomGradientContainer}
-          />
-        </View>
+            >
+              <ActivityIndicator size="small" color="#999" />
+            </View>
+          )
+        }
+        <Animated.Text
+          style={{
+            position: 'absolute',
+            bottom: 20,
+            fontSize: 22,
+            color: 'white',
+            fontWeight: 'bold',
+            opacity: textOpacity,
+          }}
+        >
+          {studioInfo.name}
+        </Animated.Text>
+      </Animated.View>
+      <Animated.View style={{ }}>
+        <LinearGradient
+          colors={bottomGradientColors}
+          locations={[0, 0.35, 0.65, 0.7]}
+          style={[seeMoreScreenStyles.bottomGradientContainer]}
+        />
+      </Animated.View>
+      <Animated.ScrollView style={seeMoreScreenStyles.screen}
+        onScroll={
+          Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: false }
+          )}
+      >
         <View style={seeMoreScreenStyles.headerRow}>
           <CustomText variant="title" style={seeMoreScreenStyles.studioTitle}>
             {studioInfo.name}
@@ -144,7 +203,7 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
             scrollEnabled={false}
           />
         )}
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 };
