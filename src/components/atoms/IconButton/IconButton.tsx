@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { CustomText } from '../CustomText/CustomText';
 import { colors } from '../../constants/colors';
 import { styles } from './IconButton.styles';
+import { useTheme } from '../../../context/ThemeContext';
 
 interface IconButtonProps {
   icon: string;
@@ -22,6 +23,11 @@ export const IconButton = ({
   onPress,
   style,
 }: IconButtonProps) => {
+  const { theme } = useTheme();
+    
+  const isDark = theme === 'dark';
+  color = isDark ? '#bbb' : '#555';
+
   return (
     <TouchableOpacity
       onPress={onPress}
