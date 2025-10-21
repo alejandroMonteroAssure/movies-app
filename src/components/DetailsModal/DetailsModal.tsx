@@ -3,7 +3,7 @@ import { Movie } from '../../services/domain/Movie';
 import BottomSheet from '../atoms/BottomSheet/BottomSheet';
 import MovieBanner from '../atoms/MovieBanner/MovieBanner';
 import { Dimensions, View } from 'react-native';
-import { styles } from './DetailsModal.type';
+import { styles } from './DetailsModal.styles';
 import { CustomText } from '../atoms/CustomText/CustomText';
 import { useState } from 'react';
 import Chip from '../atoms/chip/Chip';

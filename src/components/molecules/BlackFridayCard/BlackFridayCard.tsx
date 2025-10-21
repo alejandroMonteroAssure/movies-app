@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ImageBackground } from 'react-native';
 import { CustomText } from '../../atoms/CustomText/CustomText';
 import { Button } from '../../atoms/Button/Button';
-import { styles } from './styles';
+import { styles } from './BlackFridayCard.styles';
 import { useTheme } from '../../../context/ThemeContext';
 
 interface BlackFridayCardProps {

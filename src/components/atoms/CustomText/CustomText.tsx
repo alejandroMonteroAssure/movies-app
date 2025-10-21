@@ -1,5 +1,5 @@
 import { StyleProp, Text, TextStyle } from 'react-native';
-import { styles } from './CustomTextStyles';
+import { styles } from './CustomText.styles';
 import { useTheme } from '../../../context/ThemeContext';
 
 interface CustomTextrops {

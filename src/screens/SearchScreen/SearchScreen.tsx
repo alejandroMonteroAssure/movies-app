@@ -9,7 +9,7 @@ import { TMDBRepository } from '../../services/infrastructure/TMDBRepository';
 import { GetMoviesByQuery } from '../../services/application/getMoviesByQuery';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
-import { styles } from './SearchScreen.style';
+import { styles } from './SearchScreen.styles';
 import { useTheme } from '../../context/ThemeContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Search'>;

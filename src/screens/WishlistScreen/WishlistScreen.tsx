@@ -5,10 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import MoviesVerticalList from '../../components/organisms/MoviesVerticalList/MoviesVerticalList';
-import BottomNavigation from '../../components/organisms/BottomNavigation/BottomNavigation';
 import { useWishlist } from '../../context/WishlistContext';
 import { RootStackParamList } from '../../navigation/types';
-import { WishlistScreenStyle } from './WishlistScreen.style';
+import { WishlistScreenStyle } from './WishlistScreen.styles';
 import { useTheme } from '../../context/ThemeContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Wishlist'>;
