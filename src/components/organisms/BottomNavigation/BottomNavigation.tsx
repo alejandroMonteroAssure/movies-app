@@ -2,7 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { IconButton } from '../../atoms/IconButton/IconButton';
-import { styles } from './BottomNavigation.styles';
+import { useTheme } from '../../../context/ThemeContext';
+import { getStyles } from './BottomNavigation.styles';
 
 interface BottomNavigationProps {
   activeTab: string;
@@ -11,6 +12,9 @@ interface BottomNavigationProps {
 
 const BottomNavigation = ({ activeTab, onTabPress }: BottomNavigationProps) => {
   const navigation = useNavigation<any>();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  const styles = getStyles(isDark);
 
   const tabs = [
     { name: 'Home', icon: 'home-outline', activeIcon: 'home' },
@@ -33,6 +37,7 @@ const BottomNavigation = ({ activeTab, onTabPress }: BottomNavigationProps) => {
           label={tab.name}
           active={activeTab === tab.name}
           onPress={() => handlePress(tab.name)}
+          color={isDark ? '#fff' : '#000'}
         />
       ))}
     </View>
