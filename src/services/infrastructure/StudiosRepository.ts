@@ -6,6 +6,7 @@ import { mapStudioToDomain } from "./Mappers";
 export class StudioRepository implements IStudioRepository{
     async getInformationByStudioId(studioId: number): Promise<Studio> {
         try{
+            console.log("Called with ", studioId);
             const response = await httpClient.get(`/company/${studioId}`);
             return mapStudioToDomain(response.data);
         } catch(error){

@@ -3,10 +3,13 @@ import { Movie } from "../services/domain/Movie";
 import { TMDBRepository } from "../services/infrastructure/TMDBRepository";
 import { GetMoviesByStudio } from "../services/application/GetMoviesByStudio";
 import { curatedStudios } from "../services/domain/CuratedCompanies";
+import { GetPopularMovies } from "../services/application/GetPopularMovies";
 
 export const useMoviesByStudio = (company: string, isLimited: boolean) => {
   const movieRepository = new TMDBRepository();
   const getMoviesByStudio = new GetMoviesByStudio(movieRepository);
+    const getPopularMovies = new GetPopularMovies(movieRepository);
+
 
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,9 +34,21 @@ export const useMoviesByStudio = (company: string, isLimited: boolean) => {
     }
   };
 
+  const fetchPopularMovies = async () => {
+    try {
+      const data = await getPopularMovies.execute(1);
+      setMovies(data);
+    } catch (err) {
+      console.error("Error fetching popular movies:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const idToSearch = getIdByName();
-    fetchMoviesByStudio(idToSearch);
+    if(idToSearch === 0) fetchPopularMovies();
+    else fetchMoviesByStudio(idToSearch);
   }, [company]);
 
   return { movies, loading };
