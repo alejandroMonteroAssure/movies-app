@@ -4,7 +4,7 @@ const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 
 export const seeMoreScreenStyles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: '#000' },
+  screen: { flex: 1},
   hero: {
     width,
     paddingTop: 0,
@@ -59,7 +59,6 @@ export const seeMoreScreenStyles = StyleSheet.create({
   studioTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#fff',
   },
   sortChip: {
     paddingHorizontal: 18,
@@ -79,9 +78,17 @@ export const topGradientColors = [
   'rgba(0,0,0,0.4)',
   'rgba(0,0,0,0)',
 ];
-export const bottomGradientColors = [
+export const bottomGradientColorsDarkMode = [
   'rgba(0,0,0,0)',
   'rgba(0,0,0,0.5)',
   'rgba(0,0,0,0.9)',
   'rgba(0,0,0,1)',
+];
+
+
+export const bottomGradientColorsLightMode = [
+  'rgba(255,255,255,0)',
+  'rgba(255,255,255,0.5)',
+  'rgba(255,255,255,0.9)',
+  'rgba(255,255,255,1)',
 ];
