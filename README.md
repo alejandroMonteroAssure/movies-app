@@ -3,7 +3,7 @@
 A mobile app developed with **React Native CLI** that allows you to explore, search, and discover movies using the public API of **[The Movie Database (TMDB)](https://www.themoviedb.org/documentation/api)**.
 Compatible with **iOS** and **Android**.
 
----
+Here you can see the demo: 
 
 ## 🚀 Main features
 
@@ -11,6 +11,9 @@ Compatible with **iOS** and **Android**.
 - **Movie details** (synopsis, rating, release date, cast, trailers, etc.).
 - **Popular movies**, **by producer**, and **top-rated**.
 - **Add to favorites or wishlist** (local persistence).
+
+## 🎨 Design
+Based on this [Figma community design](https://www.figma.com/community/file/1126286295256197533) for a modern movies mobile app (light & dark mode).
 
 ## 🛠️ Technologies used
 
@@ -26,19 +29,38 @@ Compatible with **iOS** and **Android**.
 
 ---
 
-## 📂 Estructura del proyecto
-
+## 📂 Project structure
+```bash
+   src/
+   ├── components/
+   │ ├── atoms/
+   │ ├── molecules/
+   │ └── organisms/
+   │
+   ├── context/
+   │
+   ├── hooks/
+   │
+   ├── navigation/
+   │
+   ├── screens/
+   │
+   ├── services/
+   │ ├── application/
+   │ ├── domain/
+   │ └── infrastructure/
+```
 
 ## ⚙️ Configuration and installation
 
-### 1. Clona el repositorio
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/tuusuario/movies-app.git
+git clone https://github.com/alejandroMonteroAssure/movies-app.git
 cd movies-app
 ```
 
-### 2. Instala las dependencias
+### 2. Install dependencies
 
 ```bash
 npm install
@@ -46,20 +68,20 @@ npm install
 yarn install
 ```
 
-### 3. Configura tu API Key de TMDB
+### 3. Set up your TMDB API Key
 
-1. Crea una cuenta gratuita en [TMDB](https://www.themoviedb.org/).  
-2. Obtén tu API key (v3).  
-3. Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+1. Create a free account at [TMDB](https://www.themoviedb.org/).  
+2. Get your API key (v3).  
+3. Create a `.env` file in the root of the project with the following content:
 
    ```bash
-   TMDB_API_KEY=TU_API_KEY_AQUI
-   TMDB_BASE_URL=https://api.themoviedb.org/3
+   TMDB_ACCESS_TOKEN="YOUR_ACCESS_TOKEN"
+   TMDB_API_KEY="YOUR_API_KEY"
+   TMDB_BASE_URL="https://api.themoviedb.org"
+   TMDB_IMAGE_BASE_URL="https://image.tmdb.org/t/p"
    ```
 
-4. Asegúrate de cargar las variables con tu librería de entorno 
-
-## 📱 Ejecución del proyecto
+## 📱 Project execution
 
 ### Android
 ```bash
@@ -72,3 +94,14 @@ cd ios && pod install && cd ..
 npx react-native run-ios
 ```
 
+## 📸 App Screenshots
+
+
+## 📦 Releases
+
+
+## 👥 Team
+* Michelle Barriga
+* Alejandro Montero
+* Leonardo Torrico
+* Mariana Vallejos
