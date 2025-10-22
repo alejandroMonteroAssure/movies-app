@@ -8,7 +8,7 @@ export const useInfoByStudio = (studioName: string) => {
   const studioRepository = new StudioRepository();
   const getInfoByStudio = new GetInfoByStudio(studioRepository);
 
-  const [studioInfo, setStudioInfo] = useState<Studio>({id: 0, name: "", logoPath: "", color: ""});
+  const [studioInfo, setStudioInfo] = useState<Studio>({ id: 0, name: "", logoPath: "", color: "" });
   const [loading, setLoading] = useState(true);
 
   const getIdByName = () => {
@@ -31,10 +31,19 @@ export const useInfoByStudio = (studioName: string) => {
     }
   };
 
+  const fallBackEmptyStudio = async () => {
+    const studio: Studio = {
+      id: 0,
+      name: "Best movies",
+      color: '#ffffff'
+    }
+    setStudioInfo(studio);
+  }
+
   useEffect(() => {
-    console.log("MOUNTED CUSTOM HOOK");
     const studioId = getIdByName();
-    fetchInfoByStudio(studioId);
+    if (studioId === 0) fallBackEmptyStudio();
+    else fetchInfoByStudio(studioId);
   }, [studioName]);
 
   return { studioInfo, loading };

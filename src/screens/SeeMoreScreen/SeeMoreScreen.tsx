@@ -30,12 +30,13 @@ import { useTheme } from '../../context/ThemeContext';
 type Props = NativeStackScreenProps<RootStackParamList, 'SeeMore'>;
 
 const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
+  const imageFallback = 'https://media.istockphoto.com/id/1642381175/vector/cinema.jpg?s=612x612&w=0&k=20&c=owIct55daWlWRwPbTYLI9Y1IsrgYiqJcpvvgycvxBhE=';
   const { height } = Dimensions.get('window');
   const { studio } = route.params;
   const { studioInfo, loading } = useInfoByStudio(studio);
   const { movies, loading: loadingMovies } = useMoviesByStudio(studio, false);
   const [ratio, setRatio] = useState<number | undefined>(undefined);
-  const logoUri = `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}`;
+  const logoUri = (studioInfo.logoPath ? `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}` : imageFallback);
   const [loadingStudioImage, setLoadingStudioImage] = useState(false);
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -128,7 +129,7 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
         />
         <Animated.Image
           source={{
-            uri: `${TMDB_IMAGE_BASE_URL}/w500${studioInfo?.logoPath}`,
+            uri: logoUri,
           }}
           style={[{ width: screenW * 0.6, aspectRatio: ratio ?? 2.5, resizeMode: 'contain', opacity: logoOpacity, transform: [{ scale: logoScale }], }]}
           resizeMode="contain"
