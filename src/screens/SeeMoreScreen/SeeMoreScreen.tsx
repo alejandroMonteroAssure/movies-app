@@ -14,7 +14,8 @@ import { RootStackParamList } from '../../navigation/types';
 import { useInfoByStudio } from '../../hooks/useInfoByStudio';
 import { TMDB_IMAGE_BASE_URL } from '@env';
 import {
-  bottomGradientColors,
+  bottomGradientColorsDarkMode,
+  bottomGradientColorsLightMode,
   seeMoreScreenStyles,
   topGradientColors,
 } from './SeeMoreScreen.styles';
@@ -24,6 +25,7 @@ import MovieBanner from '../../components/atoms/MovieBanner/MovieBanner';
 import { CustomText } from '../../components/atoms/CustomText/CustomText';
 import { colors } from '../../components/constants/colors';
 import { IconButton } from '../../components/atoms/IconButton/IconButton';
+import { useTheme } from '../../context/ThemeContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SeeMore'>;
 
@@ -46,6 +48,8 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
   const HEADER_MAX_HEIGHT = height * 0.6;
   const HEADER_MIN_HEIGHT = 105;
   const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     let alive = true;
@@ -157,7 +161,7 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
           }}
         >
           <LinearGradient
-            colors={bottomGradientColors}
+            colors={theme === 'dark' ? bottomGradientColorsDarkMode : bottomGradientColorsLightMode}
             locations={[0, 0.35, 0.65, 0.7]}
             style={{ flex: 1 }}
           />
@@ -175,7 +179,7 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
           {studioInfo.name}
         </Animated.Text>
       </Animated.View>
-      <Animated.ScrollView style={seeMoreScreenStyles.screen}
+      <Animated.ScrollView style={[seeMoreScreenStyles.screen, {backgroundColor: (theme === 'dark'? '#000' : '#fff')}]}
         onScroll={
           Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
