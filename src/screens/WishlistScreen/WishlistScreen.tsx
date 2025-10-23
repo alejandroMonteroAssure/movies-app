@@ -9,6 +9,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import { RootStackParamList } from '../../navigation/types';
 import { WishlistScreenStyle } from './WishlistScreen.styles';
 import { useTheme } from '../../context/ThemeContext';
+import Animated, { RotateInDownLeft, RotateOutDownLeft } from 'react-native-reanimated';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Wishlist'>;
 
@@ -22,13 +23,13 @@ const WishlistScreen: React.FC<Props> = ({ route, navigation }) => {
   return (
     <GestureHandlerRootView style={[WishlistScreenStyle.root, { backgroundColor }]}>
       <SafeAreaView style={[WishlistScreenStyle.safeArea, { backgroundColor }]}>
-        <View style={WishlistScreenStyle.content}>
+        <Animated.View entering={RotateInDownLeft} exiting={RotateOutDownLeft} style={WishlistScreenStyle.content}>
           <MoviesVerticalList
             listTitle="My List"
             movies={wishlist}
             onRemoveMovie={removeFromWishlist}
           />
-        </View>
+        </Animated.View>
       </SafeAreaView>
     </GestureHandlerRootView>
   );
