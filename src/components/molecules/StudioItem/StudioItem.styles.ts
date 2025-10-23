@@ -7,7 +7,7 @@ export const studioItemStyles = StyleSheet.create({
     studioContainer: {
         width: 150,
         height: 150,
-        borderRadius: 10,
+        borderRadius: 9999,
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
