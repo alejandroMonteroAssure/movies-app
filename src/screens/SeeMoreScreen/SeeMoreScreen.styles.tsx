@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export const seeMoreScreenStyles = StyleSheet.create({
   screen: { flex: 1 },
@@ -24,17 +24,6 @@ export const seeMoreScreenStyles = StyleSheet.create({
   studioTitle: {
     fontSize: 20,
     fontWeight: '700',
-  },
-  sortChip: {
-    paddingHorizontal: 18,
-    paddingVertical: 8,
-    borderRadius: 999,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-  },
-  sortChipText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '600',
   },
   otherStudiosContainer: {
     paddingHorizontal: 16,
