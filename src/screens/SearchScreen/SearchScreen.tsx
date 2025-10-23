@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SearchBar } from '../../components/molecules/SearchBar/SearchBar';
@@ -11,6 +11,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
 import { styles } from './SearchScreen.styles';
 import { useTheme } from '../../context/ThemeContext';
+import { colors } from '../../components/constants/colors';
+import Animated, { RotateInDownLeft, RotateOutDownLeft} from 'react-native-reanimated';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
@@ -52,8 +54,9 @@ export const SearchScreen: React.FC<Props> = () => {
 
         {loading && (
           <View style={styles.messageContainer}>
+            <ActivityIndicator color={colors.primary}/>
             <Text style={[styles.messageText, { color: secondaryText }]}>
-              Cargando...
+              Searching...
             </Text>
           </View>
         )}
@@ -73,9 +76,9 @@ export const SearchScreen: React.FC<Props> = () => {
           >
             <View style={styles.grid}>
               {results.map(movie => (
-                <View key={movie.id} style={styles.movieItemContainer}>
+                <Animated.View entering={RotateInDownLeft} exiting={RotateOutDownLeft} key={movie.id} style={styles.movieItemContainer}>
                   <MovieItem item={movie} />
-                </View>
+                </Animated.View>
               ))}
             </View>
           </ScrollView>

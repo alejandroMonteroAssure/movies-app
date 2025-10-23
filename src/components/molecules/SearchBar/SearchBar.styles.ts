@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../constants/colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,6 +10,9 @@ export const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    backgroundColor: 'transparent',
+    borderColor: colors.textSecondary,
+    borderWidth: 2,
   },
   iconButton: {
     marginLeft: 8,

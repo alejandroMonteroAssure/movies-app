@@ -4,6 +4,7 @@ import { CustomText } from '../../atoms/CustomText/CustomText';
 import MovieItem from '../../molecules/movieItem/MovieItem';
 import { MoviesVerticalListStyles } from './MoviesVerticalList.styles';
 import { IconButton } from '../../atoms/IconButton/IconButton';
+import Animated, { LinearTransition } from 'react-native-reanimated';
 
 type MoviesListProps = {
   listTitle: string;
@@ -28,10 +29,11 @@ const MoviesVerticalList = ({
           No movies in your list.
         </CustomText>
       ) : (
-        <FlatList
+        <Animated.FlatList
           data={movies}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id.toString()}
+          itemLayoutAnimation={LinearTransition}
           renderItem={({ item }) => (
             <View style={MoviesVerticalListStyles.itemContainer}>
               
