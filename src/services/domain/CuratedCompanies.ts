@@ -11,6 +11,9 @@ export const curatedStudios: Studio[] = [
   { id: 174, name: 'Warner Bros. Pictures', color: '#E6E6E6' },
   { id: 127928, name: '20th Century Studios', color: '#E6E6E6' },
   { id: 33, name: 'Universal Pictures', color: '#E6E6E6' },
-  { id: 521, name: 'DreamWorks Animation', color: '#E6E6E6' },
   { id: 7, name: 'DreamWorks Pictures', color: '#E6E6E6' },
+  { id: 178464, name: "Netflix", color: '#E6E6E6' },
+  { id: 140361, name: "Hulu Japan", color: '#E6E6E6' },
+  { id: 2251, name: "Sony Pictures Animation", color: '#E6E6E6'},
+  { id: 923, name: "Legendary Pictures", color: '#E6E6E6'}
 ];

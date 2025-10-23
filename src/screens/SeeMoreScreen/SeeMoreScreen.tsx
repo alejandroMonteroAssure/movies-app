@@ -285,9 +285,9 @@ const SeeMoreScreen: React.FC<Props> = ({ route, navigation }) => {
               >
                 <View
                   style={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: 9999,
+                    width: 150,
+                    height: 150,
+                    borderRadius: 10,
                     backgroundColor: item.color,
                     justifyContent: 'center',
                     alignItems: 'center',
