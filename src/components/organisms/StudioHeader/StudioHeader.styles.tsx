@@ -45,7 +45,6 @@ export const bottomGradientColorsDarkMode = [
     'rgba(0,0,0,1)',
 ];
 
-
 export const bottomGradientColorsLightMode = [
     'rgba(255,255,255,0)',
     'rgba(255,255,255,0.5)',

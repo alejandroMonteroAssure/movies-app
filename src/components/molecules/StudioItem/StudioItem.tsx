@@ -1,7 +1,7 @@
 import { ActivityIndicator, Image, TouchableOpacity, View } from "react-native";
 import { Studio } from "../../../services/domain/Studio";
 import { TMDB_IMAGE_BASE_URL } from "@env";
-import { imageFallback } from "../../constants/miscelanous";
+import { imageFallback } from "../../constants/miscellaneous";
 import { studioItemStyles } from "./StudioItem.styles";
 import { useState } from "react";
 import { colors } from "../../constants/colors";

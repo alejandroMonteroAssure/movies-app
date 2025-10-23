@@ -7,7 +7,7 @@ import { colors } from "../../constants/colors";
 import LinearGradient from "react-native-linear-gradient";
 import { TMDB_IMAGE_BASE_URL } from "@env";
 import { useEffect, useState } from "react";
-import { imageFallback } from "../../constants/miscelanous";
+import { imageFallback } from "../../constants/miscellaneous";
 
 type StudioHeaderProps = {
     studioInfo: Studio;
@@ -23,7 +23,6 @@ export default function StudioHeader({ studioInfo, scrollY, theme }: StudioHeade
         : imageFallback;
     const [ratio, setRatio] = useState<number | undefined>(undefined);
     const [loadingStudioImage, setLoadingStudioImage] = useState(false);
-
 
     const HEADER_MAX_HEIGHT = height * 0.6;
     const HEADER_MIN_HEIGHT = 105;
@@ -60,7 +59,6 @@ export default function StudioHeader({ studioInfo, scrollY, theme }: StudioHeade
     });
 
     const screenW = Dimensions.get('window').width;
-
 
     const isTooDark = (color: string) => {
         let hex = color.replace('#', '');

@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 export const studioItemStyles = StyleSheet.create({
-
     studioContainer: {
         width: 150,
         height: 150,
@@ -14,5 +13,4 @@ export const studioItemStyles = StyleSheet.create({
         width: '80%',
         height: '80%'
     }
-
 });

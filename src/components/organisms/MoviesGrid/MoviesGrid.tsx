@@ -18,9 +18,6 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 export default function MoviesGrid({ movies }: MoviesGridProps) {
     const navigation = useNavigation<HomeScreenNavigationProp>();
     const screenW = Dimensions.get('window').width;
-
-
-
     const H_PADDING = 16;
     const GUTTER = 12;
     const CELL_W = (screenW - H_PADDING * 2 - GUTTER) / 2;

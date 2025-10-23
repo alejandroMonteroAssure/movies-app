@@ -13,12 +13,12 @@ export const useStudiosInfo = () => {
 
   const fetchInfoForStudios = async () => {
     const list: Studio[] = [];
-    for (const s of curatedStudios) {
+    for (const studio of curatedStudios) {
       try {
-        const data = await getInfoByStudio.execute(s.id);
-        list.push({ ...s, ...data });
+        const data = await getInfoByStudio.execute(studio.id);
+        list.push({ ...studio, ...data });
       } catch (e) {
-        console.warn(`Failed for ${s.name} (${s.id}):`, e);
+        console.warn(`Failed for ${studio.name} (${studio.id}):`, e);
         continue;
       }
     }
@@ -41,8 +41,6 @@ export const useStudiosInfo = () => {
       mounted = false;
     };
   }, []);
-  useEffect(() => { console.log(studiosInfo); }, [studiosInfo]);
-
 
   return { studiosInfo, loading };
 };
