@@ -10,6 +10,7 @@ import { RootStackParamList } from '../../navigation/types';
 import { WishlistScreenStyle } from './WishlistScreen.styles';
 import { useTheme } from '../../context/ThemeContext';
 import Animated, { RotateInDownLeft, RotateOutDownLeft } from 'react-native-reanimated';
+import { colors } from '../../components/constants/colors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Wishlist'>;
 
@@ -18,7 +19,7 @@ const WishlistScreen: React.FC<Props> = ({ route, navigation }) => {
   const { theme } = useTheme();
   
   const isDark = theme === 'dark';
-  const backgroundColor = isDark ? '#000' : '#fff';
+  const backgroundColor = isDark ? colors.background : colors.white;
 
   return (
     <GestureHandlerRootView style={[WishlistScreenStyle.root, { backgroundColor }]}>
