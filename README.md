@@ -5,6 +5,8 @@ Compatible with **iOS** and **Android**.
 
 Here you can see the demo:
 
+https://youtu.be/AFe6OI45aBI
+
 ## 🚀 Main features
 
 - **Search for movies** by title.
